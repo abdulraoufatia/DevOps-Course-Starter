@@ -1,27 +1,15 @@
-from flask import Flask
+from flask import Flask, render_template, request
 
 from todo_app.flask_config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config())
 
+from todo_app.data.session_items import get_items 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
-    return """
-    <html>
-<head>
-<style>
-h1 {text-align: center;}
-p {text-align: center;}
-</style>
-</head>
-<body>
-
-<h1>My todo list</h1>
-<p>What do you wish to complete mi amigo?</p>
-
-</body>
-</html>
-    
-    """
+    get_items = ['item1','item2','item3']
+    if request.method == 'POST':
+        return do_the_login()
+    return render_template('index.html', get_items=get_items)

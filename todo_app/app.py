@@ -9,6 +9,6 @@ from todo_app.data.session_items import get_items
 
 @app.route('/')
 def index():
-    return render_template('index.html', get_items=get_items)
+    return render_template('index.html', items = get_items())
     session
     

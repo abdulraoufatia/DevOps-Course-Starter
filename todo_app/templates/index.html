@@ -12,7 +12,22 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         {{Items}}
+        <ol>
+          <li>Coffee - <a href="">Delete</a>, 
+            <a href="">Update</a></li>
+          <li>Tea - <a href="">Delete</a>, 
+            <a href="">Update</a></li>
+          <li>Milk - <a href="">Delete</a>, 
+            <a href="">Update</a></li>
+          <li>Bread - <a href="">Delete</a>, 
+            <a href="">Update</a></li>
+        </ol>
       </ul>
     </div>
   </div>
+  
+  <form action="#" method="post">
+    <p>Add a todo item</p>
+    <p><input type=text todoitem="nm"/></p>
+    <p><input type=submit value="Add item"/></p>
 {% endblock %}

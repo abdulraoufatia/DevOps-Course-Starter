@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from todo_app.data.session_items import get_items
+from todo_app.data.session_items import get_items, add_item
 from todo_app.flask_config import Config
 
 app = Flask(__name__)
@@ -11,15 +11,10 @@ def index():
     return render_template('index.html', items = items, get_items = get_items)
 
 @app.route('/newitem', methods = ['POST'])
-def add_item():
-    if request.method == 'POST':
-      item = request.form['nm']
-      return redirect(url_for('success',add_item = add_item))
-    else:
-      user = request.args.get('nm')
-      return redirect(url_for('success',add_item = add_item))
-    
-    return ()
+def new_item():
+    item = request.form['todo']
+    additem = add_item(item)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run()

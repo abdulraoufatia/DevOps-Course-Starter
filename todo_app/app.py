@@ -5,10 +5,10 @@ from todo_app.flask_config import Config
 app = Flask(__name__)
 app.config.from_object(Config())
 
-@app.route('/', methods = ['POST', 'GET'])
+@app.route('/', methods = ['GET'])
 def index():
     items = get_items()
-    return render_template('index.html', items = items, get_items = get_items)
+    return render_template('index.html' , get_items = get_items)
 
 @app.route('/newitem', methods = ['POST'])
 def new_item():

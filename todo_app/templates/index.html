@@ -10,9 +10,16 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <ul class="list-group mb-4">
-        {{Items}}
-      </ul>
+      <ol class="list-group mb-4">
+        {%for item in get_items()%}
+        <li>{{item.title}}</li>
+        {%endfor%}
+      </ol>
     </div>
   </div>
+  <form action="/newitem" method="post">
+    <p>Add a todo item</p>
+    <p><input type=text name="todo"/></p>
+    <p><input type=submit value="Add item"/></p>
+  </form>
 {% endblock %}

@@ -1,14 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for
-from todo_app.data.session_items import get_items, add_item
+from todo_app.data.session_items import add_item
+from todo_app.data.trello_items import get_trello_lists
 from todo_app.flask_config import Config
+from todo_app.data import trello_items
 
 app = Flask(__name__)
 app.config.from_object(Config())
 
 @app.route('/', methods = ['GET'])
 def index():
-    items = get_items()
-    return render_template('index.html' , get_items = get_items)
+    trello_lists = get_trello_lists()
+    todo_items = []
+
+    for list in trello_lists:
+        for card in list['cards']:
+            todo_items.append(card)
+
+    return render_template('index.html' , todo_items = todo_items)
 
 @app.route('/newitem', methods = ['POST'])
 def new_item():

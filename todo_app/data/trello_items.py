@@ -20,27 +20,34 @@ def get_trello_lists():
       "cards": "open"
    }
 
-   response = requests.get(reqUrl, params = query_params)
-
-   return response.json()
+   return requests.get(reqUrl, params=query_params)
 
 # Function that creates a new card
-def create_trello_card():
-   create_Card_url = "https://api.trello.com/1/cards"
+def create_trello_card(name):
+   create_card_url = "https://api.trello.com/1/cards"
 
    create_card_query_params = {
       "key": key,
       "token": token,
       "idList": list_id,
+      "name": name
+   }
+   return requests.post(create_card_url, params = create_card_query_params)
+   # response = requests.post(create_card_url, params = create_card_query_params)
+
+# Function that marks item as complete
+def complete_item(id):
+   completeing_card_url = f"http://api.trello.com/1/cards{id}"
+
+   query_params_complete = {
+      "key": key,
+      "token": token,
+      "cards": "closed",
+      "id" : id
+      
    }
    
-   response = requests.post(create_Card_url, params = create_card_query_params)
+   return requests.put(completeing_card_url, params = query_params_complete)
 
-   print(response.text)
-
-   
-    
-
-
-
-
+   # response = requests.get(completeing_card_url, params = query_params)
+   # print(response.text)

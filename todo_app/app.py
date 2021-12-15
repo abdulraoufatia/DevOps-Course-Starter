@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from todo_app.data.session_items import add_item
-from todo_app.data.trello_items import get_trello_lists, create_trello_card
+from todo_app.data.trello_items import get_trello_lists, complete_item
 from todo_app.flask_config import Config
 from todo_app.data import trello_items
 
@@ -15,25 +15,16 @@ def index():
     for list in trello_lists:
         for card in list['cards']:
             todo_items.append(card)
-
-    return render_template('index.html' , todo_items = todo_items)
+            return render_template('index.html' , todo_items = todo_items)
+    
 
 @app.route('/newitem', methods = ['POST'])
 def new_item():
-    item = request.form['todo']
+    item = request.form.get['todo']
     additem = add_item(item)
-    return redirect(url_for('index'))
+    return redirect(url_for('index', additem = additem))
 
-def new_card_on_trello():
-    add_card = create_trello_card()
-    add_card_on_trello = []
-
-    for list in add_card:
-        for card in list['cards']:
-            add_card_on_trello.append(card)
-    return render_template('index.html' , add_card = add_card)
-
-if __name__ == '__main__':
-    app.run()
-
-# @app.route('/complete_item', methods = ['POST'])
+@app.route('/complete_item/<id>', methods = ['POST'])
+def complete_item(id):
+    id = request.args['id']
+    return

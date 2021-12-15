@@ -11,8 +11,9 @@
     <div class="col-md-12">
       <h2>Items</h2>
       <ol class="list-group mb-4">
-        {%for item in todo_items%}
-        <li>{{item.name}}</li>
+        {%for item in new_item%}
+        <li>{{item.name}} - <button type="button">Mark as Complete!</button></li>
+        
         {%endfor%}
       </ol>
     </div>

@@ -36,6 +36,8 @@ def create_trello_card():
    
    response = requests.post(create_Card_url, params = create_card_query_params)
 
+   print(response.text)
+
    
     
 

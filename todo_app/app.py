@@ -24,8 +24,6 @@ def new_item():
     additem = add_item(item)
     return redirect(url_for('index'))
 
-@app.route('/create_trello_card', methods = ['POST'])
-
 def new_card_on_trello():
     add_card = create_trello_card()
     add_card_on_trello = []
@@ -37,3 +35,5 @@ def new_card_on_trello():
 
 if __name__ == '__main__':
     app.run()
+
+# @app.route('/complete_item', methods = ['POST'])

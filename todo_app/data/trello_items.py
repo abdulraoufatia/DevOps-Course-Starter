@@ -32,8 +32,10 @@ def create_trello_card(name):
       "idList": list_id,
       "name": name
    }
-   return requests.post(create_card_url, params = create_card_query_params)
-   # response = requests.post(create_card_url, params = create_card_query_params)
+   # return requests.post(create_card_url, params = create_card_query_params)
+   response = requests.post(create_card_url, params = create_card_query_params)
+   
+
 
 # Function that marks item as complete
 def complete_item(id):

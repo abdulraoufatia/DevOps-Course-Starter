@@ -20,7 +20,7 @@ def get_trello_lists():
       "cards": "open"
    }
 
-   return requests.get(reqUrl, params=query_params)
+   return requests.get(reqUrl, params=query_params).json()
 
 # Function that creates a new card
 def create_trello_card(name):

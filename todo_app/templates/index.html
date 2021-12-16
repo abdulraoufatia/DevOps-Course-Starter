@@ -12,7 +12,10 @@
       <h2>Items</h2>
       <ol class="list-group mb-4">
         {%for item in todo_items%}
-        <li>{{item.name}} - <button type="button">Mark as Complete!</button></li>
+        <li>{{item.name}} - <form action="/complete_item" method="post">
+          <p><input hidden type=text name="id" value="{{item.id}}"/></p>
+          <button type="submit" name="Done">Mark as Complete!</button>
+        </form></li>
         
         {%endfor%}
       </ol>

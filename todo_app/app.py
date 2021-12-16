@@ -20,15 +20,13 @@ def index():
 
 @app.route('/newitem', methods = ['POST'])
 def new_item():
-    new_trello_card = create_trello_card(name) # - assinging the create_trello_card functions from trello_items.py to a variable in app.py
-    cards = []
-    for item in new_trello_card:
-        cards.append(item['id'],item['idList'],item['name'])
-    # item = request.form['todo']
-    # additem = add_item(item)
-    return redirect(url_for('index.html', cards=cards))
+    item = request.form['todo']
+    create_trello_card(item)
+    return redirect(url_for('index'))
 
-@app.route('/complete_item/<id>', methods = ['POST'])
-def complete_item(id):
-    id = request.args['id']
+@app.route('/complete_item', methods = ['POST'])
+def complete_item():
+    id = request.form['id']
+    print(id)
+    complete_item(id)
     return redirect('/')

@@ -49,7 +49,7 @@ def complete_trello_card(id):
       
    }
    
-   return requests.post(completeing_card_url, params = query_params_complete)
+   return requests.put(completeing_card_url, params = query_params_complete)
 
    # response = requests.get(completeing_card_url, params = query_params)
    # print(response.text)

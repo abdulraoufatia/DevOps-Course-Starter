@@ -23,7 +23,7 @@ def index():
 def new_item():
     item = request.form['todo']
     create_trello_card(item)
-    return redirect(url_for('index'))
+    return redirect(url_for('index.html'))
 
 @app.route('/complete_item', methods = ['POST'])
 def complete_item():

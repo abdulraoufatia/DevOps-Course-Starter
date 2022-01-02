@@ -41,7 +41,8 @@
                 <li>{{item.name}} -
                     <form action="/complete_item " method="post">
                         <p><input hidden type=text name="id" value="{{item.id}}" /></p>
-                        <button type="submit " name="Done ">Mark as Complete!</button></form>
+                        <button type="submit " name="Done ">Mark as Complete!</button>
+                    </form>
                 </li>
                 {%endfor%}
             </ol>

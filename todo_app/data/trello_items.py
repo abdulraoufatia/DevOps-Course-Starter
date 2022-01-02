@@ -6,7 +6,11 @@ from requests.api import post
 key = os.environ.get('API_KEY')
 token = os.environ.get('API_TOKEN')
 board = os.environ.get('BOARD')
-list_id = os.environ.get('NOTSTARTED_LIST')
+not_started_list_id = os.environ.get('NOTSTARTED_LIST')
+in_progress_list_id = os.environ.get('INPROGRESS_LIST')
+completed_list_id = os.environ.get('COMPLETED_LIST')
+
+
 
 main_trello_endpoint = "https://api.trello.com/1/"
 
@@ -29,7 +33,7 @@ def create_trello_card(name):
    create_card_query_params = {
       "key": key,
       "token": token,
-      "idList": list_id,
+      "idList": not_started_list_id,
       "name": name
    }
    # return requests.post(create_card_url, params = create_card_query_params)

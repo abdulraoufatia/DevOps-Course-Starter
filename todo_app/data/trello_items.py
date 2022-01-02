@@ -48,6 +48,7 @@ def complete_trello_card(id):
    query_params_complete = {
       "key": key,
       "token": token,
+      "idList": completed_list_id,
       "cards": "closed",
       "id" : id
       

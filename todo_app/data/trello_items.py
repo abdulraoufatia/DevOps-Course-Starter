@@ -11,12 +11,9 @@ in_progress_list_id = os.environ.get('INPROGRESS_LIST')
 completed_list_id = os.environ.get('COMPLETED_LIST')
 
 
-
-main_trello_endpoint = "https://api.trello.com/1/"
-
 # Function that curates the lists within a board
 def get_trello_lists():
-   reqUrl = f"http://api.trello.com/1/boards/{board}/lists"
+   request_url = f"http://api.trello.com/1/boards/{board}/lists"
 
    query_params = {
       "key": key,
@@ -24,7 +21,7 @@ def get_trello_lists():
       "cards": "open"
    }
 
-   return requests.get(reqUrl, params=query_params).json()
+   return requests.get(request_url, params=query_params).json()
 
 # Function that creates a new card
 def create_trello_card(name):
@@ -54,6 +51,3 @@ def complete_trello_card(id, completed_list_id):
    }
    
    return requests.put(completeing_card_url, params = query_params_complete)
-
-   # response = requests.get(completeing_card_url, params = query_params)
-   # print(response.text)

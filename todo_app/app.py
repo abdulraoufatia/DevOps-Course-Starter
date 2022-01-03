@@ -1,7 +1,6 @@
 from os import name
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.datastructures import ResponseCacheControl
-from todo_app.data.session_items import add_item
 from todo_app.data.trello_items import get_trello_lists, create_trello_card, complete_trello_card, completed_list_id
 from todo_app.flask_config import Config
 from todo_app.data import trello_items
@@ -23,7 +22,7 @@ def index():
 def new_item():
     item = request.form['todo']
     create_trello_card(item)
-    return redirect(url_for('index.html'))
+    return redirect(url_for('index'))
 
 @app.route('/complete_item', methods = ['POST'])
 def complete_item():

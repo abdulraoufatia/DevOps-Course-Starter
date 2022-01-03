@@ -43,7 +43,7 @@ def create_trello_card(name):
 
 # Function that marks item as complete
 def complete_trello_card(id, completed_list_id):
-   completeing_card_url = f"http://api.trello.com/1/cards{id}"
+   completeing_card_url = f"http://api.trello.com/1/cards/{id}"
 
    query_params_complete = {
       "key": key,

@@ -10,12 +10,18 @@ app.config.from_object(Config())
 
 @app.route('/', methods = ['GET'])
 def index():
-    trello_lists = get_trello_lists()
-    todo_items = []
-    for list in trello_lists:
-        for card in list['cards']:
-            todo_items.append(card)
-    return render_template('index.html' , todo_items = todo_items)
+    item = ToDoItem(id, title, status)
+    items = item.ToDoItem( id, title, status )
+    
+    return render_template('index.html' , item = item)
+
+# def index():
+#     trello_lists = get_trello_lists()
+#     todo_items = []
+#     for list in trello_lists:
+#         for card in list['cards']:
+#             todo_items.append(card)
+#     return render_template('index.html' , todo_items = todo_items)
     
 
 @app.route('/newitem', methods = ['POST'])

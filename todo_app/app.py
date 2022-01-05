@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.datastructures import ResponseCacheControl
 from todo_app.data.trello_items import get_trello_lists, create_trello_card, complete_trello_card, completed_list_id
 from todo_app.flask_config import Config
-from todo_app.data import trello_items
+from todo_app.data.todoitem import ToDoItem
 
 app = Flask(__name__)
 app.config.from_object(Config())

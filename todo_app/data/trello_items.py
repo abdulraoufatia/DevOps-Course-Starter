@@ -10,8 +10,7 @@ not_started_list_id = os.environ.get('NOTSTARTED_LIST')
 in_progress_list_id = os.environ.get('INPROGRESS_LIST')
 completed_list_id = os.environ.get('COMPLETED_LIST')
 
-
-# Function that curates the lists within a board
+# Part-3a: Module_2. Function that curates the lists within a board
 def get_trello_lists():
    request_url = f"http://api.trello.com/1/boards/{board}/lists"
 
@@ -23,7 +22,7 @@ def get_trello_lists():
 
    return requests.get(request_url, params=query_params).json()
 
-# Function that creates a new card
+# Part-3b: Module_2.  Function that creates a new card.  
 def create_trello_card(name):
    create_card_url = "https://api.trello.com/1/cards"
 
@@ -33,12 +32,12 @@ def create_trello_card(name):
       "idList": not_started_list_id,
       "name": name
    }
-   # return requests.post(create_card_url, params = create_card_query_params)
-   response = requests.post(create_card_url, params = create_card_query_params)
+   return requests.post(create_card_url, params = create_card_query_params)
+   #response = requests.post(create_card_url, params = create_card_query_params)
    
 
 
-# Function that marks item as complete
+# Part-4: Module_2. Function that marks item as complete
 def complete_trello_card(id, completed_list_id):
    completeing_card_url = f"http://api.trello.com/1/cards/{id}"
 

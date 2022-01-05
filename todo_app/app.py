@@ -11,7 +11,11 @@ app.config.from_object(Config())
 @app.route('/', methods = ['GET'])
 def index():
     item = ToDoItem(id, title, status)
-    items = item.ToDoItem( id, title, status )
+    '''
+    = .id
+    = .title
+    = .status 
+    '''
     
     return render_template('index.html' , item = item)
 

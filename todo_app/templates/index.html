@@ -25,7 +25,7 @@
                     <tbody">
                             {%for item in todo_items%}
                             <tr>
-                            <td>{{item.name}}</td>
+                            <td>{{item.title}}</td>
                             <td><input type="checkbox" id="" name="Tick" value=""></td>
                             <td><input type="checkbox" id="" name="Tick" value=""></td>
                             <td><input type="checkbox" id="" name="Tick" value=""></td>
@@ -37,8 +37,8 @@
             <br>
             </br>
             <ol class="list-group mb-4 ">
-                {%for item in item%}
-                <li>{{item.name}} -
+                {%for item in todo_items%}
+                <li>{{item.title}} -
                     <form action="/complete_item " method="post">
                         <p><input hidden type=text name="id" value="{{item.id}}" /></p>
                         <button type="submit " name="Done ">Mark as Complete!</button>

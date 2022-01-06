@@ -8,18 +8,19 @@ from todo_app.data.todoitem import ToDoItem
 app = Flask(__name__)
 app.config.from_object(Config())
 
+# Part 5 - Module_2: Creating a class for 'to-do' items
 @app.route('/', methods = ['GET'])
 def index():
-    item = ToDoItem(1, "new to-do item", "Not Started")
-    item= []
-    for list in item:
-        for item in list['name']:
-            item.id
-            item.title
-            item.status
-            item.append(item)
-            item = ToDoItem(id = item.id, title = item.title, status=item.status)
-    return render_template('index.html' , item = item)
+    trello_lists = get_trello_lists()
+    todo_items= []
+    for list in trello_lists:
+        for card in list['cards']:
+            id = card['id']
+            title = card['name']
+            status = list['name']
+            item = ToDoItem(id, title, status)
+            todo_items.append(item)
+    return render_template('index.html' , todo_items = todo_items)
 
 # def index():
 #     trello_lists = get_trello_lists()

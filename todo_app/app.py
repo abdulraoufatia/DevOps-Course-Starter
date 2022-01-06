@@ -10,13 +10,15 @@ app.config.from_object(Config())
 
 @app.route('/', methods = ['GET'])
 def index():
-    item = ToDoItem(id, title, status)
-    '''
-    = .id
-    = .title
-    = .status 
-    '''
-    
+    item = ToDoItem(1, "new to-do item", "Not Started")
+    item= []
+    for list in item:
+        for item in list['name']:
+            item.id
+            item.title
+            item.status
+            item.append(item)
+            item = ToDoItem(id = item.id, title = item.title, status=item.status)
     return render_template('index.html' , item = item)
 
 # def index():

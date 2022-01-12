@@ -1,25 +1,61 @@
-{% extends "layout.html" %}
-{% block title %}To-Do App{% endblock %}
-
-{% block content %}
-  <div class="jumbotron">
+{% extends "layout.html" %} {% block title %}To-Do App{% endblock %} {% block content %}
+<div class="jumbotron">
     <h1 class="display-4">To-Do App</h1>
     <p class="lead">Just another to-do app.</p>
-  </div>
+</div>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12">
+            <table BORDER=1 WIDTH="100%" CELLPADDING="4" CELLSPACING="3">
+                <thead>
+                    <tr ALIGN="center">
+                        <th COLSPAN="100" WIDTH="50%" CELLPADDING="4" CELLSPACING="3">
+                            <br>
+                            <h1>To-do list</h1>
+                            <p>Date and Time for Today: <span id="datetime"></span></p>
+                        </th>
+                    </tr>
+                    <tr ALIGN="center ">
+                        <td ALIGN="left "><strong>Agenda</strong></td>
+                        <td><strong>Not Started</strong></td>
+                        <td><strong>In Progress</strong></td>
+                        <td><strong>Complete</strong></td>
+                    </tr>
+                    </thead>
+                    <tbody">
+                            {%for item in todo_items%}
+                            <tr>
+                            <td>{{item.title}}</td>
+                            <td><input type="checkbox" id="" name="Tick" value=""></td>
+                            <td><input type="checkbox" id="" name="Tick" value=""></td>
+                            <td><input type="checkbox" id="" name="Tick" value=""></td>
+                            </tr>
+                            {%endfor%}
 
-  <div class="row">
-    <div class="col-md-12">
-      <h2>Items</h2>
-      <ol class="list-group mb-4">
-        {%for item in get_items()%}
-        <li>{{item.title}}</li>
-        {%endfor%}
-      </ol>
+                    </tbody>
+            </table>    
+            <br>
+            </br>
+            <ol class="list-group mb-4 ">
+                {%for item in todo_items%}
+                <li>{{item.title}} -
+                    <form action="/complete_item " method="post">
+                        <p><input hidden type=text name="id" value="{{item.id}}" /></p>
+                        <button type="submit " name="Done ">Mark as Complete!</button>
+                    </form>
+                </li>
+                {%endfor%}
+            </ol>
+        </div>
     </div>
-  </div>
-  <form action="/newitem" method="post">
-    <p>Add a todo item</p>
-    <p><input type=text name="todo"/></p>
-    <p><input type=submit value="Add item"/></p>
-  </form>
+    <form action="/newitem " method="post">
+        <p>Add a todo item</p>
+        <p><input type=text name="todo" /></p>
+        <p><input type=submit value="Add item " /></p>
+    </form>
+</div>
+<script>
+    var dt = new Date();
+    document.getElementById("datetime").innerHTML = dt.toLocaleString();
+    </script>
 {% endblock %}

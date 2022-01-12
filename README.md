@@ -21,25 +21,42 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 The project uses a virtual environment to isolate package dependencies. To create the virtual environment and install required packages, run the following from your preferred shell:
 
 ```bash
-$ poetry install
+poetry install
 ```
 
 You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
 
 ```bash
-$ cp .env.template .env  # (first time only)
+cp .env.template .env  # (first time only)
 ```
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
+## Before Running the app
+
+The set up of this to_do app has been designed for Trello. Set up the .env file and place the information accordingly to your Trello account:
+
+```bash
+SECRET_KEY=secret-key # leave this as it is
+
+API_KEY = 'abc'
+API_TOKEN = 'def'
+BOARD = 'ghi'
+NOTSTARTED_LIST = 'klm'
+INPROGRESS_LIST = 'nop'
+COMPLETED_LIST =  'qrs'
+```
+
 ## Running the App
 
-Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
+Once the all dependencies have been installed and relevant information has been inputted, start the Flask app in development mode within the poetry environment by running:
+
 ```bash
-$ poetry run flask run
+poetry run flask run
 ```
 
 You should see output similar to the following:
+
 ```bash
  * Serving Flask app "app" (lazy loading)
  * Environment: development
@@ -49,4 +66,5 @@ You should see output similar to the following:
  * Debugger is active!
  * Debugger PIN: 226-556-590
 ```
+
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.

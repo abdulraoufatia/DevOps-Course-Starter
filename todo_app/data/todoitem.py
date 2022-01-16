@@ -4,3 +4,11 @@ class ToDoItem:
        self.id = id
        self.title = title
        self.status = status
+
+class ViewModel:
+    def __init__(self, items):
+        self._items = items
+
+    @property
+    def items(self):
+        return self._items

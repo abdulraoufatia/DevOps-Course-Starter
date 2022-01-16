@@ -19,7 +19,6 @@
                         <td ALIGN="left "><strong>Agenda</strong></td>
                         <td><strong>Not Started</strong></td>
                         <td><strong>In Progress</strong></td>
-                        <td><strong>Complete</strong></td>
                         <td><strong>Current Status of Card</strong></td>
                     </tr>
                     </thead>
@@ -27,9 +26,11 @@
                             {%for item in todo_items%}
                             <tr>    
                             <td ALIGN="LEFT">{{item.title}}</td>
-                            <td ALIGN="CENTER"><input type="checkbox" id="" name="Tick" value="{{item.id}}"></td>
-                            <td ALIGN="CENTER"><input type="checkbox" id="" name="Tick" value="{{item.id}}"></td>
-                            <td ALIGN="CENTER"><input type="checkbox" id="" name="Tick" value="{{item.id}}"><form action="/complete_item " method="post">
+                            <td ALIGN="CENTER"><form action="/in_progress " method="post">
+                                <p><input hidden type=text name="inprogress" value="{{item.id}}"></p>
+                                <button type="submit " name="inprgress ">Mark as In Progress!</button>
+                            </form>
+                            <td ALIGN="CENTER"><form action="/complete_item " method="post">
                                 <p><input hidden type=text name="id" value="{{item.id}}" /></p>
                                 <button type="submit " name="Done ">Mark as Complete!</button>
                             </form></td>

@@ -1,7 +1,7 @@
+from crypt import methods
 from os import name
 from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.datastructures import ResponseCacheControl
-from todo_app.data.trello_items import get_trello_lists, create_trello_card, complete_trello_card, completed_list_id
+from todo_app.data.trello_items import get_trello_lists, create_trello_card, complete_trello_card, completed_list_id, in_progress_trello_card, in_progress_list_id
 from todo_app.flask_config import Config
 from todo_app.data.todoitem import ToDoItem
 
@@ -26,6 +26,12 @@ def index():
 def new_item():
     item = request.form['todo']
     create_trello_card(item)
+    return redirect(url_for('index'))
+
+@app.route('/in_progress', methods = ['POST'])
+def mark_item_in_progress():
+    id = request.form.get('inprogress')
+    in_progress_trello_card(id, in_progress_list_id)
     return redirect(url_for('index'))
 
 @app.route('/complete_item', methods = ['POST'])

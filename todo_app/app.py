@@ -1,9 +1,10 @@
 from crypt import methods
 from os import name
+from typing import ItemsView
 from flask import Flask, render_template, request, redirect, url_for
 from todo_app.data.trello_items import get_trello_lists, create_trello_card, complete_trello_card, completed_list_id, in_progress_trello_card, in_progress_list_id
 from todo_app.flask_config import Config
-from todo_app.data.todoitem import ToDoItem
+from todo_app.data.todoitem import ToDoItem, ViewModel
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -11,15 +12,17 @@ app.config.from_object(Config())
 # Part 5 - Module_2: Creating a class for 'to-do' items
 @app.route('/', methods = ['GET'])
 def index():
-    trello_lists = get_trello_lists()
-    todo_items= []
-    for list in trello_lists:
-        for card in list['cards']:
-            id = card['id']
-            title = card['name']
-            status = list['name']
-            item = ToDoItem(id, title, status)
-            todo_items.append(item)
+    todo_items = ViewModel(items)
+
+    # trello_lists = get_trello_lists()
+    # todo_items= []
+    # for list in trello_lists:
+    #     for card in list['cards']:
+    #         id = card['id']
+    #         title = card['name']
+    #         status = list['name']
+    #         item = ToDoItem(id, title, status)
+    #         todo_items.append(item)
     return render_template('index.html' , todo_items = todo_items)
 
 @app.route('/newitem', methods = ['POST'])

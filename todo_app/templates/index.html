@@ -23,12 +23,12 @@
                     </tr>
                     </thead>
                     <tbody">
-                            {%for item in todo_items.items.items%}
+                            {%for item in todo_items.items%}
                             <tr>    
                             <td ALIGN="LEFT">{{item.title}}</td>
                             <td ALIGN="CENTER"><form action="/in_progress " method="post">
                                 <p><input hidden type=text name="inprogress" value="{{item.id}}"></p>
-                                <button type="submit " name="inprgress ">Mark as In Progress!</button>
+                                <button type="submit " name="inprogress ">Mark as In Progress!</button>
                             </form>
                             <td ALIGN="CENTER"><form action="/complete_item " method="post">
                                 <p><input hidden type=text name="id" value="{{item.id}}" /></p>

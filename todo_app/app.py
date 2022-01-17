@@ -1,6 +1,5 @@
 from crypt import methods
 from os import name
-from typing import ItemsView
 from flask import Flask, render_template, request, redirect, url_for
 from todo_app.data.trello_items import get_trello_lists, create_trello_card, complete_trello_card, completed_list_id, in_progress_trello_card, in_progress_list_id
 from todo_app.flask_config import Config
@@ -12,6 +11,7 @@ app.config.from_object(Config())
 # Part 5 - Module_2: Creating a class for 'to-do' items
 @app.route('/', methods = ['GET'])
 def index():
+    items = get_trello_lists()
     todo_items = ViewModel(items)
 
     # trello_lists = get_trello_lists()

@@ -7,41 +7,116 @@
     <div class="row">
         <div class="col-md-12">
             <table BORDER=1 WIDTH="100%" CELLPADDING="4" CELLSPACING="3">
-                <thead>
-                    <tr ALIGN="center">
-                        <th COLSPAN="100" WIDTH="50%" CELLPADDING="4" CELLSPACING="3">
-                            <br>
-                            <h1>To-do list</h1>
-                            <p>Date and Time for Today: <span id="datetime"></span></p>
-                        </th>
-                    </tr>
-                    <tr ALIGN="center ">
-                        <td ALIGN="left "><strong>Agenda</strong></td>
-                        <td><strong>Not Started</strong></td>
-                        <td><strong>In Progress</strong></td>
-                        <td><strong>Current Status of Card</strong></td>
-                    </tr>
-                    </thead>
-                    <tbody">
-                            {%for item in view_model.items%}
-                            <tr>    
-                            <td ALIGN="LEFT">{{item.title}}</td>
-                            <td ALIGN="CENTER"><form action="/in_progress " method="post">
-                                <p><input hidden type=text name="inprogress" value="{{item.id}}"></p>
-                                <button type="submit " name="inprogress ">Mark as In Progress!</button>
-                            </form>
-                            <td ALIGN="CENTER"><form action="/complete_item " method="post">
-                                <p><input hidden type=text name="id" value="{{item.id}}" /></p>
-                                <button type="submit " name="Done ">Mark as Complete!</button>
-                            </form></td>
-                            <td ALIGN="CENTER"><strong>{{item.status}}</strong></td>
-                            </tr>
-                            {%endfor%}
-
-                    </tbody>
-            </table>    
+                {% if view_model.todo_items %}
+                <tr ALIGN="center">
+                    <th COLSPAN="100" WIDTH="50%" CELLPADDING="4" CELLSPACING="3">
+                        <br>
+                        <h1>Backlog</h1>
+                        <p>Date and Time for Today: <span id="datetime"></span></p>
+                    </th>
+                </tr>
+                <tr ALIGN="center ">
+                    <th>Title</th>
+                    <th>Current Status</th>
+                    <th>Move to In progress</th>
+                    <th>Move to done</th>
+                </tr>
+                {% for item in view_model.todo_items %}
+                <tr>
+                    <td ALIGN="CENTER">{{ item.title }}</td>
+                    <td ALIGN="CENTER">{{ item.status }}</td>
+                    <td ALIGN="CENTER">
+                        <form action="/in_progress " method="post">
+                            <p><input hidden type=text name="inprogress" value="{{item.id}}"></p>
+                            <button type="submit " name="inprogress ">In Progress</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form ALIGN="CENTER" action="/complete_item " method="post">
+                            <p><input hidden type=text name="id" value="{{item.id}}" /></p>
+                            <button type="submit " name="Done ">Done</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
             <br>
-            </br>
+            <table BORDER=1 WIDTH="100%" CELLPADDING="4" CELLSPACING="3">
+                {% if view_model.doing_items %}
+                <tr ALIGN="center">
+                    <th COLSPAN="100" WIDTH="50%" CELLPADDING="4" CELLSPACING="3">
+                        <br>
+                        <h1>In Progress</h1>
+                        <p>Date and Time for Today: <span id="datetime"></span></p>
+                    </th>
+                </tr>
+                <tr ALIGN="center ">
+                    <th>Title</th>
+                    <th>Current Status</th>
+                    <th>Move to In progress</th>
+                    <th>Move to done</th>
+                </tr>
+                {% for item in view_model.doing_items %}
+                <tr>
+                    <td ALIGN="CENTER">{{ item.title }}</td>
+                    <td ALIGN="CENTER">{{ item.status }}</td>
+                    <td ALIGN="CENTER">
+                        <form action="/in_progress " method="post">
+                            <p><input hidden type=text name="inprogress" value="{{item.id}}"></p>
+                            <button type="submit " name="inprogress ">In Progress</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form ALIGN="CENTER" action="/complete_item " method="post">
+                            <p><input hidden type=text name="id" value="{{item.id}}" /></p>
+                            <button type="submit " name="Done ">Done</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+            <br>
+            <table BORDER=1 WIDTH="100%" CELLPADDING="4" CELLSPACING="3">
+                {% if view_model.done_items %}
+                <tr ALIGN="center">
+                    <th COLSPAN="100" WIDTH="50%" CELLPADDING="4" CELLSPACING="3">
+                        <br>
+                        <h1>Completed</h1>
+                        <p>Date and Time for Today: <span id="datetime"></span></p>
+                    </th>
+                </tr>
+                <tr ALIGN="center ">
+                    <th>Title</th>
+                    <th>Current Status</th>
+                    <th>Move to In progress</th>
+                    <th>Move to done</th>
+                </tr>
+                {% for item in view_model.done_items %}
+                <tr>
+                    <td ALIGN="CENTER">{{ item.title }}</td>
+                    <td ALIGN="CENTER">{{ item.status }}</td>
+                    <td ALIGN="CENTER">
+                        <form action="/in_progress " method="post">
+                            <p><input hidden type=text name="inprogress" value="{{item.id}}"></p>
+                            <button type="submit " name="inprogress ">In Progress</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form ALIGN="CENTER" action="/complete_item " method="post">
+                            <p><input hidden type=text name="id" value="{{item.id}}" /></p>
+                            <button type="submit " name="Done ">Done</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <h3 class="display-5 text-left" style="color:rgb(206, 51, 40)">Completed Items</h3>
+            <p> 0 items complete. Well done. When will you finish your tasks?! </p>
+            {% endif %}
+            <br>
         </div>
     </div>
     <form action="/newitem " method="post">
@@ -53,5 +128,5 @@
 <script>
     var dt = new Date();
     document.getElementById("datetime").innerHTML = dt.toLocaleString();
-    </script>
+</script>
 {% endblock %}

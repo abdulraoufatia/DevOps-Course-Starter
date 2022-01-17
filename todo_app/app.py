@@ -8,22 +8,23 @@ from todo_app.data.todoitem import ToDoItem, ViewModel
 app = Flask(__name__)
 app.config.from_object(Config())
 
-# Part 5 - Module_2: Creating a class for 'to-do' items
+# Part 1, Step 1 - Module_3: Making a ViewModel
 @app.route('/', methods = ['GET'])
 def index():
-    items = get_trello_lists()
-    todo_items = ViewModel(items)
-
-    # trello_lists = get_trello_lists()
-    # todo_items= []
-    # for list in trello_lists:
-    #     for card in list['cards']:
-    #         id = card['id']
-    #         title = card['name']
-    #         status = list['name']
-    #         item = ToDoItem(id, title, status)
-    #         todo_items.append(item)
-    return render_template('index.html' , todo_items = todo_items)
+    view_model = get_trello_lists()
+# Part 5 - Module_2: Creating a class for 'to-do' items
+    trello_lists = get_trello_lists()
+    todo_items= []
+    for list in trello_lists:
+        for card in list['cards']:
+            id = card['id']
+            title = card['name']
+            status = list['name']
+            item = ToDoItem(id, title, status)
+            todo_items.append(item)
+    # Part 1, Step 1 - Module_3: Making a ViewModel
+    view_model = ViewModel(todo_items)        
+    return render_template('index.html' , view_model =  view_model)
 
 @app.route('/newitem', methods = ['POST'])
 def new_item():

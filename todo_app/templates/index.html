@@ -23,7 +23,7 @@
                     </tr>
                     </thead>
                     <tbody">
-                            {%for item in todo_items.items%}
+                            {%for item in view_model.items%}
                             <tr>    
                             <td ALIGN="LEFT">{{item.title}}</td>
                             <td ALIGN="CENTER"><form action="/in_progress " method="post">

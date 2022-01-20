@@ -63,13 +63,12 @@ def in_progress_trello_card(id, in_progress_list_id):
    return requests.put(card_in_progress_url, params = query_params_in_progress)
 
    # Function that delete's cards
-def delete_card(id, board):
+def delete_card(id):
    deleting_card = f"http://api.trello.com/1/cards{id}"
       
    query_params_delete_card = {
          "key"    : key,
          "token"  : token,
-         "idList" : [not_started_list_id, in_progress_list_id, completed_list_id],
          "id"     : id
    }
 

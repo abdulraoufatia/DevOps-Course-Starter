@@ -6,7 +6,8 @@ from todo_app.data.trello_items import (
     create_trello_card,
     complete_trello_card,
     completed_list_id,
-    in_progress_trello_card
+    in_progress_trello_card,
+    in_progress_list_id
 )
 from todo_app.flask_config import Config
 from todo_app.data.todoitem import ToDoItem, ViewModel
@@ -56,10 +57,10 @@ def create_app():
             return render_template()
 
     @app.route("/delete_card", methods=["POST"])
-    def delete_card():
+    def deleting_card_function():
         delete_item = request.form["deleting_card_form"]
-        delete_card(delete_item)
+        deleting_card_function(delete_item)
         return redirect(url_for("index"))
 
-    if __name__ == "__main__":
-        create_app().run()
+    # if __name__ == "__main__":
+    #     create_app().run()

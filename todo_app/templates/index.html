@@ -20,6 +20,7 @@
                     <th>Current Status</th>
                     <th>Move to In progress</th>
                     <th>Move to done</th>
+                    <th>Delete</th>
                 </tr>
                 {% for item in view_model.todo_items %}
                 <tr>
@@ -27,14 +28,20 @@
                     <td ALIGN="CENTER">{{ item.status }}</td>
                     <td ALIGN="CENTER">
                         <form action="/in_progress " method="post">
-                            <p><input hidden type=text name="inprogress" value="{{item.id}}"></p>
+                            <input hidden type=text name="inprogress" value="{{item.id}}">
                             <button type="submit " name="inprogress ">In Progress</button>
                         </form>
                     </td>
                     <td>
                         <form ALIGN="CENTER" action="/complete_item " method="post">
-                            <p><input hidden type=text name="id" value="{{item.id}}" /></p>
+                            <input hidden type=text name="id" value="{{item.id}}">
                             <button type="submit " name="Done ">Done</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form ALIGN="CENTER" action="/delete_card" method="post">
+                            <input hidden type=text name="delete_card" value="{{item.id}}">
+                            <button type="submit" name="deleting_card_form"> Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -56,6 +63,7 @@
                     <th>Current Status</th>
                     <th>Move to In progress</th>
                     <th>Move to done</th>
+                    <th>Delete</th>
                 </tr>
                 {% for item in view_model.doing_items %}
                 <tr>
@@ -63,14 +71,20 @@
                     <td ALIGN="CENTER">{{ item.status }}</td>
                     <td ALIGN="CENTER">
                         <form action="/in_progress " method="post">
-                            <p><input hidden type=text name="inprogress" value="{{item.id}}"></p>
+                            <input hidden type=text name="inprogress" value="{{item.id}}">
                             <button type="submit " name="inprogress ">In Progress</button>
                         </form>
                     </td>
                     <td>
                         <form ALIGN="CENTER" action="/complete_item " method="post">
-                            <p><input hidden type=text name="id" value="{{item.id}}" /></p>
+                            <input hidden type=text name="id" value="{{item.id}}" />
                             <button type="submit " name="Done ">Done</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form ALIGN="CENTER" action="/delete_card" method="post">
+                            <input hidden type=text name="delete_card" value="{{item.id}}">
+                            <button type="submit" name="deleting_card_form"> Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -92,6 +106,7 @@
                     <th>Current Status</th>
                     <th>Move to In progress</th>
                     <th>Move to done</th>
+                    <th>Delete</th>
                 </tr>
                 {% for item in view_model.done_items %}
                 <tr>
@@ -99,14 +114,20 @@
                     <td ALIGN="CENTER">{{ item.status }}</td>
                     <td ALIGN="CENTER">
                         <form action="/in_progress " method="post">
-                            <p><input hidden type=text name="inprogress" value="{{item.id}}"></p>
+                            <input hidden type=text name="inprogress" value="{{item.id}}">
                             <button type="submit " name="inprogress ">In Progress</button>
                         </form>
                     </td>
                     <td>
                         <form ALIGN="CENTER" action="/complete_item " method="post">
-                            <p><input hidden type=text name="id" value="{{item.id}}" /></p>
+                            <input hidden type=text name="id" value="{{item.id}}" />
                             <button type="submit " name="Done ">Done</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form ALIGN="CENTER" action="/delete_card" method="post">
+                            <input hidden type=text name="delete_card" value="{{item.id}}">
+                            <button type="submit" name="deleting_card_form"> Delete</button>
                         </form>
                     </td>
                 </tr>

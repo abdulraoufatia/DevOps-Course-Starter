@@ -1,6 +1,6 @@
 import requests, os, json
 from requests import api
-
+from todo_app.data.todoitem import ToDoItem
 from requests.api import post
 
 key = os.environ.get('API_KEY')
@@ -34,6 +34,7 @@ def create_trello_card(name):
    }
    return requests.post(create_card_url, params = create_card_query_params)
    #response = requests.post(create_card_url, params = create_card_query_params)
+
 # Part-4: Module_2. Function that marks item as complete
 def complete_trello_card(id, completed_list_id):
    completeing_card_url = f"http://api.trello.com/1/cards/{id}"
@@ -53,10 +54,23 @@ def in_progress_trello_card(id, in_progress_list_id):
    card_in_progress_url = f"http://api.trello.com/1/cards/{id}"
 
    query_params_in_progress = {
-      "key": key,
-      "token": token,
-      "idList": in_progress_list_id,
-      "id" : id
+      "key"    : key,
+      "token"  : token,
+      "idList" : in_progress_list_id,
+      "id"     : id
    }
 
    return requests.put(card_in_progress_url, params = query_params_in_progress)
+
+   # Function that delete's cards
+def delete_card(id, board):
+   deleting_card = f"http://api.trello.com/1/cards{id}"
+      
+   query_params_delete_card = {
+         "key"    : key,
+         "token"  : token,
+         "idList" : [not_started_list_id, in_progress_list_id, completed_list_id],
+         "id"     : id
+   }
+
+   return requests.delete(deleting_card,  params = query_params_delete_card)

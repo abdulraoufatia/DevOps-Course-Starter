@@ -1,16 +1,16 @@
 from os import name
 from flask import Flask, render_template, request, redirect, url_for
-from tomlkit import item
 from todo_app.data.trello_items import (
     get_trello_lists,
     create_trello_card,
     complete_trello_card,
-    completed_list_id,
+    completed_list_id,  
     in_progress_trello_card,
     in_progress_list_id
 )
 from todo_app.flask_config import Config
-from todo_app.data.todoitem import ToDoItem, ViewModel
+from todo_app.data.todoitem import ToDoItem
+from todo_app.data.viewmodel import ViewModel
 
 
 def create_app():
@@ -62,5 +62,7 @@ def create_app():
         deleting_card_function(delete_item)
         return redirect(url_for("index"))
 
-    # if __name__ == "__main__":
-    #     create_app().run()
+    return app
+
+if __name__ == "__main__":
+    create_app(create_app).run()

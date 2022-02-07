@@ -7,7 +7,7 @@ class ViewModel:
     def items(self):
         return self._items
 
-# Module 3, Part 1: Step 2
+    # Module 3, Part 1: Step 2
     @property
     def todo_items(self):
         todo_items = []

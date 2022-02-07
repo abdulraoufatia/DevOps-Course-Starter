@@ -68,3 +68,66 @@ You should see output similar to the following:
 ```
 
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Running tests with pytest
+
+Being a DevOps engineer invokes many responabilities, one responsability of a DevOps Engineer is to be involved in identifying required qualities and estimate their impact on the development process. This is done through the practice of testing.
+
+In the world of software engineering, testing is an impertive practice constituting the security of your code.
+
+Through out this project, testing our software was achieved through the pytest framework.
+
+### Getting started - Installing pytest
+
+1. Run the following command in your command line:
+
+```bash
+pip install pytest
+```
+
+2. Check that you installed the correct version:
+
+### Executing the test
+
+1. Creating a simple test
+
+```bash
+# content of test_sample.py
+def func(x):
+    return x + 1
+
+
+def test_answer():
+    assert func(3) == 5
+```
+
+2. Testing the function
+
+```bash
+
+$ pytest
+=========================== test session starts ============================
+platform linux -- Python 3.x.y, pytest-6.x.y, py-1.x.y, pluggy-1.x.y
+cachedir: $PYTHON_PREFIX/.pytest_cache
+rootdir: $REGENDOC_TMPDIR
+collected 1 item
+
+test_sample.py F                                                     [100%]
+
+================================= FAILURES =================================
+_______________________________ test_answer ________________________________
+
+    def test_answer():
+>       assert func(3) == 5
+E       assert 4 == 5
+E        +  where 4 = func(3)
+
+test_sample.py:6: AssertionError
+========================= short test summary info ==========================
+FAILED test_sample.py::test_answer - assert 4 == 5
+============================ 1 failed in 0.12s =============================
+
+
+```
+
+To read more about pytest, please visit pytest offical website here : [pytest documentation] (<https://docs.pytest.org/en/6.2.x/contents.html>)

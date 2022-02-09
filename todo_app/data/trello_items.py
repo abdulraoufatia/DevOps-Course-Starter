@@ -12,7 +12,7 @@ completed_list_id = os.environ.get("COMPLETED_LIST")
 
 # Part-3a: Module_2. Function that curates the lists within a board
 def get_trello_lists():
-    request_url = f"http://api.trello.com/1/boards/{board}/lists"
+    request_url =  requests.get(f"http://api.trello.com/1/boards/{board}/lists")
 
     query_params = {
         "key": os.environ.get("API_KEY"),
@@ -20,7 +20,7 @@ def get_trello_lists():
         "cards": "open",
     }
 
-    return requests.get(request_url, params=query_params).json()
+    # return requests.get(request_url, params=query_params).json()[0]
 
 
 # Part-3b: Module_2.  Function that creates a new card.

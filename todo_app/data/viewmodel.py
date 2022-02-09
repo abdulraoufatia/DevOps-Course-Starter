@@ -30,4 +30,4 @@ class ViewModel:
         for item in self._items:
             if item.status == "Completed":
                 done_items.append(item)
-        return done_items
+        return done_items 

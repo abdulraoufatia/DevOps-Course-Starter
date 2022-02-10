@@ -4,9 +4,7 @@ from todo_app.data.trello_items import (
     get_trello_lists,
     create_trello_card,
     complete_trello_card,
-    completed_list_id,
     in_progress_trello_card,
-    in_progress_list_id,
     delete_card,
 )
 from todo_app.flask_config import Config
@@ -21,7 +19,6 @@ def create_app():
     # Part 1, Step 1 - Module_3: Making a ViewModel
     @app.route("/", methods=["GET"])
     def index():
-        view_model = get_trello_lists()
         # Part 5 - Module_2: Creating a class for 'to-do' items
         trello_lists = get_trello_lists()
         todo_items = []
@@ -45,14 +42,14 @@ def create_app():
     @app.route("/in_progress", methods=["POST"])
     def mark_item_in_progress():
         id = request.form.get("inprogress")
-        in_progress_trello_card(id, in_progress_list_id)
+        in_progress_trello_card(id)
         return redirect(url_for("index"))
 
     @app.route("/complete_item", methods=["POST"])
     def complete_item():
         if request.method == "POST":
             id = request.form["id"]
-            complete_trello_card(id, completed_list_id)
+            complete_trello_card(id)
             return redirect(url_for("index"))
         else:
             return render_template()

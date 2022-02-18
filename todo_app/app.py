@@ -1,47 +1,67 @@
 from os import name
 from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.datastructures import ResponseCacheControl
-from todo_app.data.trello_items import get_trello_lists, create_trello_card, complete_trello_card, completed_list_id
+from todo_app.data.trello_items import (
+    get_trello_lists,
+    create_trello_card,
+    complete_trello_card,
+    in_progress_trello_card,
+    delete_card,
+)
 from todo_app.flask_config import Config
 from todo_app.data.todoitem import ToDoItem
+from todo_app.data.viewmodel import ViewModel
 
-app = Flask(__name__)
-app.config.from_object(Config())
 
-# Part 5 - Module_2: Creating a class for 'to-do' items
-@app.route('/', methods = ['GET'])
-def index():
-    trello_lists = get_trello_lists()
-    todo_items= []
-    for list in trello_lists:
-        for card in list['cards']:
-            id = card['id']
-            title = card['name']
-            status = list['name']
-            item = ToDoItem(id, title, status)
-            todo_items.append(item)
-    return render_template('index.html' , todo_items = todo_items)
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config())
 
-# def index():
-#     trello_lists = get_trello_lists()
-#     todo_items = []
-#     for list in trello_lists:
-#         for card in list['cards']:
-#             todo_items.append(card)
-#     return render_template('index.html' , todo_items = todo_items)
-    
+    # Part 1, Step 1 - Module_3: Making a ViewModel
+    @app.route("/", methods=["GET"])
+    def index():
+        # Part 5 - Module_2: Creating a class for 'to-do' items
+        trello_lists = get_trello_lists()
+        todo_items = []
+        for list in trello_lists:
+            for card in list["cards"]:
+                id = card["id"]
+                title = card["name"]
+                status = list["name"]
+                item = ToDoItem(id, title, status)
+                todo_items.append(item)
+        # Part 1, Step 1 - Module_3: Making a ViewModel
+        view_model = ViewModel(todo_items)
+        return render_template("index.html", view_model=view_model)
 
-@app.route('/newitem', methods = ['POST'])
-def new_item():
-    item = request.form['todo']
-    create_trello_card(item)
-    return redirect(url_for('index'))
+    @app.route("/newitem", methods=["POST"])
+    def new_item():
+        item = request.form["todo"]
+        create_trello_card(item)
+        return redirect(url_for("index"))
 
-@app.route('/complete_item', methods = ['POST'])
-def complete_item():
-    if request.method == 'POST':
-        id = request.form['id']
-        complete_trello_card(id, completed_list_id)
-        return redirect(url_for('index'))
-    else:
-        return render_template()
+    @app.route("/in_progress", methods=["POST"])
+    def mark_item_in_progress():
+        id = request.form.get("inprogress")
+        in_progress_trello_card(id)
+        return redirect(url_for("index"))
+
+    @app.route("/complete_item", methods=["POST"])
+    def complete_item():
+        if request.method == "POST":
+            id = request.form["id"]
+            complete_trello_card(id)
+            return redirect(url_for("index"))
+        else:
+            return render_template()
+
+    @app.route("/delete_card", methods=["POST"])
+    def deleting_card_function():
+        delete_item = request.form["delete_card"]
+        delete_card(delete_item)
+        return redirect(url_for("index"))
+
+    return app
+
+
+if __name__ == "__main__":
+    create_app(create_app).run()

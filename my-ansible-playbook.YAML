@@ -57,10 +57,14 @@
       dest: /opt/todoapp/.env
 
   - name: Part 8 of 8 - Starting the app (1 of 2 - Copying systemd file)
+    become: yes
     ansible.builtin.copy:
-      src: /opt/todoapp/todoapp.service
+      src: /home/ec2-user/todoapp.service
       dest: /etc/systemd/system/todoapp.service
     
   - name: Part 8 of 8 - Starting the app (2 of 2 - Running Systemd)
+    become: yes
     ansible.builtin.systemd:
-      daemon_reloaded: yes
+      name: todoapp.service
+      daemon_reload: yes
+      state: restarted

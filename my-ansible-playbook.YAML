@@ -1,0 +1,66 @@
+---
+- name: part-4 module exercise
+  hosts: aatia_group_name
+  remote_user: ec2-user
+  vars_prompt:
+
+  - name: api_key 
+    prompt: What is your key?
+
+  - name: api_token
+    prompt: What is your token?
+
+  - name: board
+    prompt: what is the board ID?
+
+  tasks:
+  - name: Part 1 of 8 - Installing Git
+    become: yes
+    yum:
+     name: git
+     state: latest
+
+  - name: Part 2 of 8 - Installing Python 3.7.1
+    become: yes
+    yum:
+     name: python
+     state: latest
+
+  - name: Part 3 of 8 - Installing Poetry
+    ansible.builtin.shell: 
+      cmd: curl -sSL https://install.python-poetry.org | python3
+      creates: ~/.local/bin/poetry
+ 
+  - name: Part 4 of 8 - Creating a directory
+    become: yes
+    ansible.builtin.file:
+     path: /opt/todoapp
+     state: directory
+     owner: ec2-user
+
+  - name: Part 5 of 8 - Installing your Application
+    become: yes
+    ansible.builtin.git:
+      repo: https://github.com/abdulraoufatia/DevOps-Course-Starter.git
+      dest: /opt/todoapp/
+      version: module_3
+
+  - name: Part 6 of 8 - Install Project Dependencies 
+    ansible.builtin.command: ~/.local/bin/poetry install
+    args:
+      chdir: /opt/todoapp/
+      creates: .venv
+
+  - name: Part 7 of 8 - Creating env
+    ansible.builtin.template:
+      src: /home/ec2-user/env.j2
+      dest: /opt/todoapp/.env
+
+  - name: Part 8 of 8 - Starting the app (1 of 2 - Copying systemd file)
+    ansible.builtin.copy:
+      src: /opt/todoapp/todoapp.service
+      dest: /etc/systemd/system/todoapp.service
+    
+  - name: Part 8 of 8 - Starting the app (2 of 2 - Running Systemd)
+    ansible.builtin.systemd:
+      daemon_reloaded: yes

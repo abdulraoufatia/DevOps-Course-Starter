@@ -39,7 +39,6 @@
      owner: ec2-user
 
   - name: Part 5 of 8 - Installing your Application
-    become: yes
     ansible.builtin.git:
       repo: https://github.com/abdulraoufatia/DevOps-Course-Starter.git
       dest: /opt/todoapp/

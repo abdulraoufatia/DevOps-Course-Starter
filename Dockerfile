@@ -18,7 +18,6 @@ FROM base as development
 CMD ["poetry", "run", "flask", "run", "--host", "0.0.0.0"]
     
 # 7 - Project Initalisation 
-# COPY ./pyproject.toml poetry.lock /app/
     # Installing dependencies 
 RUN poetry config virtualenvs.create false --local && poetry install
     # Listening on specific port

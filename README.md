@@ -138,7 +138,7 @@ This application utilises containerisation concept. Containerisation entails pla
 
 ### Getting Started with Docker
 
-To get started with Docker you would need to install a containerisation tool. A containerisation tool used for this project was Docker. However, you may find alternatives depending on your Opersating System.
+To get started with Docker you would need to install a containerisation tool. A containerisation tool used for this project was Docker. However, you may find alternatives depending on your Operating System.
 
 ### Build and run the Docker Image
 
@@ -147,13 +147,13 @@ This project is buit using mutlti-stage builds. Mutil-stage builds are useful to
 To build the development enviornment, run the following command:
 
 ```bash
-docker build --target development --tag todo_app:development 
+docker build --target development --tag todo_app:development .
 ```
 
 To build the production environment, run the following command:
 
 ```bash
-docker build --target production --tag todo_app:production
+docker build --target production --tag todo_app:production .
 ```
 
 I have built the development, you should see something similar to this:
@@ -167,14 +167,6 @@ I have built the development, you should see something similar to this:
  => [internal] load .dockerignore                                                                                                                                             0.0s
  => => transferring context: 111B                                                                                                                                             0.0s
  => [internal] load metadata for docker.io/library/python:3.7.13-slim-buster                                                                                                  2.7s
- => [base 1/5] FROM docker.io/library/python:3.7.13-slim-buster@sha256:1c99a3b0f4c8168b2210e74911cbcf028a6a44ddad50d0eed5a5eced28173295                                       0.0s
- => => resolve docker.io/library/python:3.7.13-slim-buster@sha256:1c99a3b0f4c8168b2210e74911cbcf028a6a44ddad50d0eed5a5eced28173295                                            0.0s
- => [internal] load build context                                                                                                                                             1.6s
- => => transferring context: 92.66kB                                                                                                                                          1.6s
- => CACHED [base 2/5] WORKDIR /app                                                                                                                                            0.0s
- => CACHED [base 3/5] RUN apt-get update     && apt-get -y install curl     && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | pytho  0.0s
- => [base 4/5] COPY . /app/                                                                                                                                                   0.1s
- => [base 5/5] RUN poetry config virtualenvs.create false --local && poetry install                                                                                          20.6s
  => exporting to oci image format                                                                                                                                            22.2s
  => => exporting layers                                                                                                                                                       4.0s
  => => exporting manifest sha256:dceec4fdc84fbac49fff46f71ad1dac40ac1a3ba1f2304323b30be6facb9c735                                                                             0.0s 
@@ -187,11 +179,11 @@ unpacking docker.io/library/todo_app:latest (sha256:dceec4fdc84fbac49fff46f71ad1
 The next step is to test the local development setup using the following command:
 
 ```bash
-docker run --env-file ./.env -p 4000:80 --mount type=bind, source = "$(pwd)" / todo_ap,target=/app/todo_app todo_app:development
+docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
 ```
 You should see see something like this:
 ```bash
-(.venv) [Module_5 x] {} DevOps-Course-Starter docker run --env-file ./.env -p 4000:80 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo-app:development
+docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
 Skipping virtualenv creation, as specified in config file.
 
  * Serving Flask app "todo_app/app:create_app   " (lazy loading)
@@ -201,4 +193,9 @@ Skipping virtualenv creation, as specified in config file.
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 957-903-041
+```
+
+If you desire to run the production environment, run the following command:
+```bash
+docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:production
 ```

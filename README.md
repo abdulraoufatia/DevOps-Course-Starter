@@ -181,7 +181,9 @@ The next step is to test the local development setup using the following command
 ```bash
 docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
 ```
+
 You should see see something like this:
+
 ```bash
 docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
 Skipping virtualenv creation, as specified in config file.
@@ -196,6 +198,7 @@ Skipping virtualenv creation, as specified in config file.
 ```
 
 If you desire to run the production environment, run the following command:
+
 ```bash
 docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:production
 ```

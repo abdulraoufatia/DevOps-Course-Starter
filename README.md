@@ -202,3 +202,13 @@ If you desire to run the production environment, run the following command:
 ```bash
 docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:production
 ```
+
+
+
+Launching containers with long docker run commands can become tedious, and difficult to share with other developers
+
+To get the app to run in the container using the docker-compose.yml, with the build flag so it rebuilds the image as necessary. The basic principle is the YAML docker-compose.yml file is used to launch the long docker run commands. 
+
+```bash
+docker-compose up --build 
+```

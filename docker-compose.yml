@@ -3,7 +3,7 @@ services:
     web:
         build: 
             context: .
-            target: base
+            target: test
         env_file:
             - ./.env
         ports:

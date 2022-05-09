@@ -134,11 +134,11 @@ To read more about pytest, please visit pytest offical website here : [pytest do
 
 ## DevOps Applications - Containerisation
 
-This application utilises containerisation concept. Containerisation entails placing a software component and its environement, dependencies, and configuration, into an insolated unit called a container. This makes it poosible to deploy an application consistently on any computing envoronment, wether on-premises or cloud-based.
+This application utilises containerisation concept. Containerisation entails placing a software component and its environement, dependencies, and configuration, into an insolated unit called a container. This makes it poosible to deploy an application consistently on any computing environment, whether on-premise or cloud-based.
 
-### Getting Started with Docker
+To get started, you need to install a containerisation tool. A containerisation tool used for this project was Docker. However, you may find alternatives depending on your Operating System.
 
-To get started with Docker you would need to install a containerisation tool. A containerisation tool used for this project was Docker. However, you may find alternatives depending on your Operating System.
+## Getting Started with Docker
 
 ### Build and run the Docker Image
 
@@ -156,11 +156,11 @@ To build the production environment, run the following command:
 docker build --target production --tag todo_app:production .
 ```
 
-I have built the development, you should see something similar to this:
+I have built the development environment image, you should see something similar to this:
 
 ```bash
 
-(.venv) [Module_5 x] {} DevOps-Course-Starter docker build --target development --tag todo_app .
+(.venv) [Module_5 x] {} DevOps-Course-Starter docker build --target development --tag todo_app:development .
 [+] Building 47.5s (10/10) FINISHED                                                                                                                                                
  => [internal] load build definition from Dockerfile                                                                                                                          0.1s
  => => transferring dockerfile: 567B                                                                                                                                          0.0s
@@ -181,7 +181,9 @@ The next step is to test the local development setup using the following command
 ```bash
 docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
 ```
+
 You should see see something like this:
+
 ```bash
 docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
 Skipping virtualenv creation, as specified in config file.
@@ -196,6 +198,51 @@ Skipping virtualenv creation, as specified in config file.
 ```
 
 If you desire to run the production environment, run the following command:
+
 ```bash
 docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:production
 ```
+
+## Advanced Features of Docker - Docker Compose
+Launching containers with long docker run commands can become tedious, and difficult to share with other developers. The basic principle of 'docker compose' is utilised to launch long docker run commands. So, rather than running the afrementioned commands, one could run a simple: 
+
+```bash
+docker-compose up --build 
+```
+
+
+
+Note: docker-compose.yml is configured in YAML. To further develop your understanding, please see [this link](https://docs.docker.com/compose/gettingstarted/) --> Docker Compose Getting Started | See step 3
+
+
+### Running Tests
+This approach helps to identify bugs as early as possible. These inherent features of a DevOps testing environment contribute significantly towards improving software quality. A third Docker stage is included describing the ability to encapsulate a complete test environment( unit, integration and end-to-end tests).
+
+If you have been following along, don't forget to stop the container, to stop a container you may run the following command: 
+
+```bash
+docker-compose stop
+```
+
+To buld the test image run the following command: 
+
+```bash
+$ docker build --target test --tag test-image .
+```
+
+We can confirm the the success of the event by having an output similar to the following :
+
+```bash
+devops-course-starter-web-1  | Skipping virtualenv creation, as specified in config file.
+devops-course-starter-web-1  | ============================= test session starts ==============================
+devops-course-starter-web-1  | platform linux -- Python 3.7.13, pytest-6.2.5, py-1.11.0, pluggy-1.0.0
+devops-course-starter-web-1  | rootdir: /app
+devops-course-starter-web-1  | collected 4 items
+devops-course-starter-web-1  | 
+devops-course-starter-web-1  | todo_app/test/test_app.py .                                              [ 25%]
+devops-course-starter-web-1  | todo_app/test/test_viewmodel.py ...                                      [100%]
+devops-course-starter-web-1  | 
+devops-course-starter-web-1  | ============================== 4 passed in 0.21s ===============================
+devops-course-starter-web-1 exited with code 0
+```
+Knowledge in Testing is required to undestand what is happening above. 

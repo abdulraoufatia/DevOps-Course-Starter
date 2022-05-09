@@ -216,7 +216,7 @@ Note: docker-compose.yml is configured in YAML. To further develop your understa
 
 
 ### Running Tests
-This approach helps to identify bugs as early as possible. These inherent features of a DevOps testing environment contribute significantly towards improving software quality. A third feature is included a third describing the ability to encapsulate a complete test environment( unit, integration and end-to-end tests). 
+This approach helps to identify bugs as early as possible. These inherent features of a DevOps testing environment contribute significantly towards improving software quality. A third Docker stage is included describing the ability to encapsulate a complete test environment( unit, integration and end-to-end tests).
 
 If you have been following along, don't forget to stop the container, to stop a container you may run the following command: 
 

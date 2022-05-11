@@ -1,11 +1,25 @@
 name: Continuous Integration
 on: [push]
 
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
 jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: docker build --target test --tag todo_app:test .
-    - run: docker run --env-file ./.env.test todo_app:test
+
+    - name: Building Test Docker Image
+      run: docker build --target test --tag todo_app:test .
+    - name: Running Test Image - Results will print
+      run: docker run --env-file ./.env.test todo_app:test
+
+    - name: Slack Notification
+      uses: act10ns/slack@v1
+      with: 
+        status: starting
+        channel: '#slack-notifications'
+        message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      if: always()

@@ -79,13 +79,13 @@ Through out this project, testing our software was achieved through the pytest f
 
 ### Getting started - Installing pytest
 
-1. Run the following command in your command line:
+### Run the following command in your command line
 
 ```bash
 pip install pytest
 ```
 
-2. Check that you installed the correct version:
+### Check that you installed the correct version
 
 ### Executing the test
 
@@ -101,7 +101,7 @@ def test_answer():
     assert func(3) == 5
 ```
 
-2. Testing the function
+Testing the function
 
 ```bash
 
@@ -131,3 +131,118 @@ FAILED test_sample.py::test_answer - assert 4 == 5
 ```
 
 To read more about pytest, please visit pytest offical website here : [pytest documentation] (<https://docs.pytest.org/en/6.2.x/contents.html>)
+
+## DevOps Applications - Containerisation
+
+This application utilises containerisation concept. Containerisation entails placing a software component and its environement, dependencies, and configuration, into an insolated unit called a container. This makes it poosible to deploy an application consistently on any computing environment, whether on-premise or cloud-based.
+
+To get started, you need to install a containerisation tool. A containerisation tool used for this project was Docker. However, you may find alternatives depending on your Operating System.
+
+## Getting Started with Docker
+
+### Build and run the Docker Image
+
+This project is buit using mutlti-stage builds. Mutil-stage builds are useful to optimise Dockerfiles while keeping them easy to read and maintain.  
+
+To build the development enviornment, run the following command:
+
+```bash
+docker build --target development --tag todo_app:development .
+```
+
+To build the production environment, run the following command:
+
+```bash
+docker build --target production --tag todo_app:production .
+```
+
+I have built the development environment image, you should see something similar to this:
+
+```bash
+
+(.venv) [Module_5 x] {} DevOps-Course-Starter docker build --target development --tag todo_app:development .
+[+] Building 47.5s (10/10) FINISHED                                                                                                                                                
+ => [internal] load build definition from Dockerfile                                                                                                                          0.1s
+ => => transferring dockerfile: 567B                                                                                                                                          0.0s
+ => [internal] load .dockerignore                                                                                                                                             0.0s
+ => => transferring context: 111B                                                                                                                                             0.0s
+ => [internal] load metadata for docker.io/library/python:3.7.13-slim-buster                                                                                                  2.7s
+ => exporting to oci image format                                                                                                                                            22.2s
+ => => exporting layers                                                                                                                                                       4.0s
+ => => exporting manifest sha256:dceec4fdc84fbac49fff46f71ad1dac40ac1a3ba1f2304323b30be6facb9c735                                                                             0.0s 
+ => => exporting config sha256:4dc5ab9984f75a1c0f235869e381b822557d1e553bcd41c31d99d98c9d749e6f                                                                               0.0s
+ => => sending tarball                                                                                                                                                       18.2s
+unpacking docker.io/library/todo_app:latest (sha256:dceec4fdc84fbac49fff46f71ad1dac40ac1a3ba1f2304323b30be6facb9c735)...done
+
+```
+
+The next step is to test the local development setup using the following command:
+
+```bash
+docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
+```
+
+You should see see something like this:
+
+```bash
+docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
+Skipping virtualenv creation, as specified in config file.
+
+ * Serving Flask app "todo_app/app:create_app   " (lazy loading)
+ * Environment: development
+ * Debug mode: on
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 957-903-041
+```
+
+If you desire to run the production environment, run the following command:
+
+```bash
+docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:production
+```
+
+## Advanced Features of Docker - Docker Compose
+Launching containers with long docker run commands can become tedious, and difficult to share with other developers. The basic principle of 'docker compose' is utilised to launch long docker run commands. So, rather than running the afrementioned commands, one could run a simple: 
+
+```bash
+docker-compose up --build 
+```
+
+
+
+Note: docker-compose.yml is configured in YAML. To further develop your understanding, please see [this link](https://docs.docker.com/compose/gettingstarted/) --> Docker Compose Getting Started | See step 3
+
+
+### Running Tests
+This approach helps to identify bugs as early as possible. These inherent features of a DevOps testing environment contribute significantly towards improving software quality. A third Docker stage is included describing the ability to encapsulate a complete test environment( unit, integration and end-to-end tests).
+
+If you have been following along, don't forget to stop the container, to stop a container you may run the following command: 
+
+```bash
+docker-compose stop
+```
+
+To buld the test image run the following command: 
+
+```bash
+$ docker build --target test --tag test-image .
+```
+
+We can confirm the the success of the event by having an output similar to the following :
+
+```bash
+devops-course-starter-web-1  | Skipping virtualenv creation, as specified in config file.
+devops-course-starter-web-1  | ============================= test session starts ==============================
+devops-course-starter-web-1  | platform linux -- Python 3.7.13, pytest-6.2.5, py-1.11.0, pluggy-1.0.0
+devops-course-starter-web-1  | rootdir: /app
+devops-course-starter-web-1  | collected 4 items
+devops-course-starter-web-1  | 
+devops-course-starter-web-1  | todo_app/test/test_app.py .                                              [ 25%]
+devops-course-starter-web-1  | todo_app/test/test_viewmodel.py ...                                      [100%]
+devops-course-starter-web-1  | 
+devops-course-starter-web-1  | ============================== 4 passed in 0.21s ===============================
+devops-course-starter-web-1 exited with code 0
+```
+Knowledge in Testing is required to undestand what is happening above. 

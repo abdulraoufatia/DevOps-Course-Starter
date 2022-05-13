@@ -11,12 +11,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Building Test Docker Image
-      run: docker build --target test --tag todo_app:test .
-    - name: Running Test Image - Results will print
+    - name: Building Test Image
+      run: docker build . --target test --tag todo_app:test 
+
+    - name: Running Test Image 
       run: docker run --env-file ./.env.test todo_app:test
 
-    - name: Slack Notification
+    - name: Sending Notifications
       uses: act10ns/slack@v1
       with: 
         status: starting

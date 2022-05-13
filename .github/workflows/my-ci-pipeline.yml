@@ -1,5 +1,9 @@
 name: Continuous Integration
-on: [push]
+on: [push, pull-request]
+types:
+      - closed
+    branches:    
+      - 'Module_7'
 
 env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

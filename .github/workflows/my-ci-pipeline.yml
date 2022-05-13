@@ -1,5 +1,7 @@
 name: Continuous Integration
 on: [push]
+  paths-ignore:
+    - README.md
 
 env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

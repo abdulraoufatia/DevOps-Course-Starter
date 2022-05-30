@@ -58,7 +58,6 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Pushing to DockerHub
-      if: ${{ github.event_name ==  github.ref }} 
       uses: docker/build-push-action@v2
       with:
         context: .

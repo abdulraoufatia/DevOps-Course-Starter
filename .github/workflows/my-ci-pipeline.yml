@@ -37,13 +37,13 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push Docker images
-      uses: docker/build-push-action@v3.0.0
+    - name: Push to Docker Hub
+      uses: docker/build-push-action@v1
       with:
-        context: .
-      run: | 
-        echo $docker_password | docker login --username $docker_username --password-stdin
-        docker build --target development --tag abdulraoufatia/todo-app:latest
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: abdulraoufatia/todo_app
+        tags: latest, ${{ github.run_number }}
 
     - name: Sending Notifications
       uses: act10ns/slack@v1

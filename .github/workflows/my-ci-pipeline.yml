@@ -42,17 +42,6 @@ jobs:
     # if: github.ref == 'refs/heads/main' && github.event_name == 'push' 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Placeholder
-      run: echo "Publishing!"
-
-    - name: Building Production Image
-      run: docker build --target production --tag todo_app:production .
-      
-    - name: Running Snyk to check for vulnerabilities
-      uses: snyk/actions/python-3.8@master
-      env: 
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       
     - name: Setting up QEMU
       uses: docker/setup-qemu-action@v2
@@ -76,24 +65,12 @@ jobs:
         cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache
         cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache,mode=max
 
-    - name: Deploying on Heroku
-      uses: akhileshns/heroku-deploy@v3.12.12
+    - name:
+      uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: "todo-app-apprenticeship"
-        heroku_email: ${{secrets.HEROKU_USERNAME}}
-        usedocker: true
-
-    # - name: Authenticating on Heroku
-    #   run: heroku login
-    #   with:
-    #     username: ${{ secrets.HEROKU_USERNAME }}
-    #     password: ${{ secrets.HEROKU_PASSWORD }}
-
-    # - name: Authenticating Heroku's registry
-    #   run: |
-    #     heroku container:login
-    #     docker tag abdulraoufatia/todoapp registry.heroku.com/todo-app-apprenticeship/web
+        heroku_app_name: "todo-app-apprenticeship" #Must be unique in Heroku
+        heroku_email: ${{ secrets.HEROKU_USERNAME }}
 
     - name: Sending Notifications
       uses: act10ns/slack@v1

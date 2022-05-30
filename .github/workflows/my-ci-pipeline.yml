@@ -40,8 +40,10 @@ jobs:
     - name: Build and push Docker images
       uses: docker/build-push-action@v3.0.0
       with:
-        push: true
-        tags: user/app:latest   
+        context: .
+        push: ${{ GitHub.event_name != 'pull_request' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
 
     - name: Sending Notifications
       uses: act10ns/slack@v1

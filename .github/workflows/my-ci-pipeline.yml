@@ -43,7 +43,9 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/abdulraoufaita:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/todoapp:latest
+        cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache
+        cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache,mode=max
 
     - name: Sending Notifications
       uses: act10ns/slack@v1

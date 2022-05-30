@@ -1,0 +1,36 @@
+name: Continuous Integration
+on:
+  push:
+    schedule:
+      - cron: '0 0 * * *'
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Building Test Image
+      run: docker build --target test --tag todo_app:test .
+
+    - name: Running Test Image 
+      run: docker run --env-file ./.env.test todo_app:test
+ 
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/python-3.8@master
+      env: 
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+    - name: Sending Notifications
+      uses: act10ns/slack@v1
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      with: 
+        status: ${{ job.status }}
+        channel: '#slack-notifications'
+        message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      if: always()

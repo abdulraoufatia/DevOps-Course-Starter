@@ -41,9 +41,9 @@ jobs:
       uses: docker/build-push-action@v3.0.0
       with:
         context: .
-        push: ${{ GitHub.event_name != 'pull_request' }}
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+      run: | 
+        echo $docker_password | docker login --username $docker_username --password-stdin
+        docker build --target development --tag abdulraoufatia/todo-app:latest
 
     - name: Sending Notifications
       uses: act10ns/slack@v1

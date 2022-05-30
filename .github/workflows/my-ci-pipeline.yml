@@ -24,21 +24,7 @@ jobs:
       uses: snyk/actions/python-3.8@master
       env: 
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-    
-    - name: Setting up QEMU
-      uses: docker/setup-qemu-action@v2
-
-    - name: Setting up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Authenticating DockerHub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-    
-
+ 
     - name: Sending Notifications
       uses: act10ns/slack@v1
       env:
@@ -58,6 +44,18 @@ jobs:
 
     - name: Placeholder
       run: echo "Publishing!"
+
+    - name: Setting up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Setting up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Authenticating DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Pushing to DockerHub
       if: ${{ github.event_name ==  github.ref }} 

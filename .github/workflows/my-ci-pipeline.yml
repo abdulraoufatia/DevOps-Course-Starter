@@ -68,17 +68,25 @@ jobs:
         cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache
         cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache,mode=max
 
-    - name: Authenticating on Heroku
-      run: heroku login
+    - name:
+      uses: akhileshns/heroku-deploy@v3.12.12
       with:
-        username: ${{ secrets.HEROKU_USERNAME }}
-        password: ${{ secrets.HEROKU_PASSWORD }}
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "todo-app-apprenticeship"
+        heroku_email: ${{secrets.HEROKU_USERNAME}}
+        usedocker: true
 
-    - name: Authenticating Heroku's registry
-      run: |
-        heroku container:login
-        docker tag abdulraoufatia/todoapp registry.heroku.com/todo-app-apprenticeship/web
-        
+    # - name: Authenticating on Heroku
+    #   run: heroku login
+    #   with:
+    #     username: ${{ secrets.HEROKU_USERNAME }}
+    #     password: ${{ secrets.HEROKU_PASSWORD }}
+
+    # - name: Authenticating Heroku's registry
+    #   run: |
+    #     heroku container:login
+    #     docker tag abdulraoufatia/todoapp registry.heroku.com/todo-app-apprenticeship/web
+
     - name: Sending Notifications
       uses: act10ns/slack@v1
       env:

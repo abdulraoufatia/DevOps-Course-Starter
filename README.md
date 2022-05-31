@@ -269,9 +269,8 @@ Continuous Integration (CI) is a DevOps software development practice where deve
 6. Image deployed on Heroku
 7. Notification is sent
 
-### Important Heroku Dockerfile commands and runtime: 
+### Important Heroku Dockerfile commands and runtime
+
 - To deploy the production environment, it must be last step within the Dockerfile
 - The web process must listen for HTTP traffic on $PORT, which is set by Heroku
 - EXPOSE in Dockerfile is not respected, but can be used for local testing. Only HTTP requests are supported.
-
-

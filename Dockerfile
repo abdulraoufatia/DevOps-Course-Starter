@@ -8,7 +8,7 @@ RUN apt-get update \
     && apt-get -y install curl \
     && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - 
 
-# EXPOSE 4000
+# EXPOSE 4000 - uncomment this for dev and uat environments 
 
 COPY . /app/
 

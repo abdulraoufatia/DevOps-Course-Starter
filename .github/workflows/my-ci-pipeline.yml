@@ -14,16 +14,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Running Snyk to check for vulnerabilities
+      uses: snyk/actions/python-3.8@master
+      env: 
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
     - name: Building Test Image
       run: docker build --target test --tag todo_app:test .
 
     - name: Running Test Image 
       run: docker run --env-file ./.env.test todo_app:test
- 
-    - name: Running Snyk to check for vulnerabilities
-      uses: snyk/actions/python-3.8@master
-      env: 
+
+    - name: Run Snyk to check Docker image for vulnerabilities
+      uses: snyk/actions/docker@master
+      env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        image: todo_app:test
  
     - name: Sending Notifications
       uses: act10ns/slack@v1
@@ -39,7 +46,7 @@ jobs:
     name: Production
     needs: build
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/main' && github.event_name == 'push' 
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' 
     steps:
     - uses: actions/checkout@v2
       

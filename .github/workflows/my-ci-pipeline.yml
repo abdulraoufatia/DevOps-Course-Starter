@@ -27,10 +27,12 @@ jobs:
 
     - name: Run Snyk to check Docker image for vulnerabilities
       uses: snyk/actions/docker@master
+      continue-on-error: true
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         image: todo_app:test
+        args: --severity-threshold=high
  
     - name: Sending Notifications
       uses: act10ns/slack@v1

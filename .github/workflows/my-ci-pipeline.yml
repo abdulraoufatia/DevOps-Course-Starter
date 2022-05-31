@@ -39,7 +39,7 @@ jobs:
     name: Production
     needs: build
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/main' && github.event_name == 'push' 
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' 
     steps:
     - uses: actions/checkout@v2
       
@@ -71,13 +71,7 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: "todo-app-apprenticeship"
         heroku_email: ${{ secrets.HEROKU_USERNAME }}
-
-        docker_build_args: |
-            NODE_ENV
-            SECRET_KEY
-      env:
-        NODE_ENV: production
-        SECRET_KEY: ${{ secrets.DOCKERHUB_TOKEN }}        
+        usedocker: true  
 
     - name: Sending Notifications
       uses: act10ns/slack@v1

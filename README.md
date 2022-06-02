@@ -247,7 +247,7 @@ devops-course-starter-web-1 exited with code 0
 
 Knowledge in Testing is required to undestand what is happening above.
 
-#### Running invidual containers
+#### Running individual containers
 
 If you wish to run a container seperately, use each command respecitively either:
 
@@ -272,18 +272,16 @@ Continuous Integration (CI) is a DevOps software development practice where deve
 1. It runs Snyk to check for vulnerabilities with the python application
 2. It builds the test image
 3. It runs the test image, printing the results of the test, if all is well it proceed with the next step;
-4. It runs Snyk to check for vulnerabilities with the built image
-5. Notification is sent
+4. Notification is sent
 
 ### Continious Delivery
 
 1. Second job will run upon the success of first job (CI)
-2. QEMU is set up - enabled to allow the user to have access to any kind of application or operating system on a current platform
-3. Docker buildx is set up
-4. Docker is authenticated
-5. Production image is pushed to docker (using argument  `target: production`)
-6. Image deployed on Heroku
-7. Notification is sent
+2. Docker buildx is set up
+3. Docker is authenticated
+4. Production image is pushed to docker (using argument  `target: production`)
+5. Image deployed on Heroku
+6. Notification is sent
 
 ### Important Heroku Dockerfile commands and runtime
 

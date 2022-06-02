@@ -247,11 +247,27 @@ devops-course-starter-web-1 exited with code 0
 
 Knowledge in Testing is required to undestand what is happening above.
 
+#### Running invidual containers
+
+If you wish to run a container seperately, use each command respecitively either:
+
+```bash
+docker-compose up todo-development
+```
+
+```bash
+docker-compose up todo-test
+```
+
+```bash
+docker-compose up todo-production
+```
+
 ## Application of Continious Integration and Continious Delivery
 
 Continuous Integration (CI) is a DevOps software development practice where developers regularly merge their code changes into a central repository, after which automated builds and tests are run. This repoistory CI pipeline is set in the following manner:
 
-### Continious Integration
+### Continuous Integration
 
 1. It runs Snyk to check for vulnerabilities with the python application
 2. It builds the test image
@@ -262,15 +278,15 @@ Continuous Integration (CI) is a DevOps software development practice where deve
 ### Continious Delivery
 
 1. Second job will run upon the success of first job (CI)
-2. QEMU is set up
+2. QEMU is set up - enabled to allow the user to have access to any kind of application or operating system on a current platform
 3. Docker buildx is set up
 4. Docker is authenticated
-5. Image in first job is pushed to docker
+5. Production image is pushed to docker (using argument  `target: production`)
 6. Image deployed on Heroku
 7. Notification is sent
 
 ### Important Heroku Dockerfile commands and runtime
 
-- To deploy the production environment, it must be last step within the Dockerfile
+- If argument `target : <name_of_env>` is set to a specific target, it will upload the target name, the stage by default will upload the last stage. This is because, in our application, it's production, if you were to change this to `test`, the `test` target stage will be pushed to Dockerhub (action name = Pushing to DockerHub )
 - The web process must listen for HTTP traffic on $PORT, which is set by Heroku
 - EXPOSE in Dockerfile is not respected, but can be used for local testing. Only HTTP requests are supported.

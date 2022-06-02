@@ -27,7 +27,6 @@ jobs:
 
     - name: Run Snyk to check Docker image for vulnerabilities
       uses: snyk/actions/docker@master
-      continue-on-error: true
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
@@ -42,7 +41,6 @@ jobs:
         status: ${{ job.status }}
         channel: '#slack-notifications'
         message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-      if: always()
   
   production:
     name: Production
@@ -69,6 +67,7 @@ jobs:
       with:
         context: .
         file: ./Dockerfile
+        target: production
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/todoapp:latest
         cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache

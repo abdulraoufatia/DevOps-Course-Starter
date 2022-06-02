@@ -4,11 +4,13 @@ WORKDIR /app
 
 ENV PATH="${PATH}:/root/.poetry/bin" 
 
+ARG DEV_PORT=4000
+
 RUN apt-get update \
     && apt-get -y install curl \
     && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - 
 
-# EXPOSE 4000 - uncomment this for dev and uat environments 
+EXPOSE ${DEV_PORT}  
 
 COPY . /app/
 

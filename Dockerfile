@@ -4,11 +4,13 @@ WORKDIR /app
 
 ENV PATH="${PATH}:/root/.poetry/bin" 
 
+ARG DEV_PORT=4000
+
 RUN apt-get update \
     && apt-get -y install curl \
     && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - 
 
-EXPOSE 4000
+EXPOSE ${DEV_PORT}  
 
 COPY . /app/
 
@@ -18,12 +20,14 @@ FROM base as development
 
 CMD ["poetry", "run", "flask", "run", "--host", "0.0.0.0"]
 
-FROM base as production
-
-CMD poetry run gunicorn -b 0.0.0.0:4000 "todo_app.app:create_app()"
-
 FROM base as test
 
 ENV PATH="${PATH}:/root/todo_app/tests"
 
 CMD ["poetry", "run", "pytest"]
+
+FROM base as production
+
+ENV PORT=5000
+
+CMD poetry run gunicorn -b 0.0.0.0:$PORT "todo_app.app:create_app()"

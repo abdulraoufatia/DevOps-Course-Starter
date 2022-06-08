@@ -1,6 +1,19 @@
 version: '3.9'
 services:
-    web:
+     todo-dev:
+        build: 
+            context: .
+            target: development
+        env_file:
+            - ./.env
+        ports:
+            - "4000:5000"
+        volumes:
+            - ./todo_app:/app/todo_app
+        environment: 
+            PORT: 4000
+            FLASK_DEBUG: 1  
+     todo-test:
         build: 
             context: .
             target: test
@@ -12,4 +25,18 @@ services:
             - ./todo_app:/app/todo_app
         environment: 
             PORT: 4000
+            FLASK_DEBUG: 1  
+
+     todo-prod:
+        build: 
+            context: .
+            target: production
+        env_file:
+            - ./.env
+        ports:
+            - "4000:5000"
+        volumes:
+            - ./todo_app:/app/todo_app
+        environment: 
+            PORT: 5000
             FLASK_DEBUG: 1  

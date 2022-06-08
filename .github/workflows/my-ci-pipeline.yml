@@ -14,16 +14,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Running Snyk to check for vulnerabilities
+      uses: snyk/actions/python-3.8@master
+      env: 
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
     - name: Building Test Image
       run: docker build --target test --tag todo_app:test .
 
     - name: Running Test Image 
       run: docker run --env-file ./.env.test todo_app:test
- 
-    - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/python-3.8@master
-      env: 
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
     - name: Sending Notifications
       uses: act10ns/slack@v1
@@ -33,4 +33,51 @@ jobs:
         status: ${{ job.status }}
         channel: '#slack-notifications'
         message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-      if: always()
+  
+  production:
+    name: Production
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' 
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setting up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Authenticating DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Pushing to DockerHub
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        target: production
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/todoapp:latest
+        cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache
+        cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache,mode=max
+
+    - name: Deploying to Heroku
+      uses: akhileshns/heroku-deploy@v3.12.12 
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: "todo-app-apprenticeship"
+        heroku_email: ${{ secrets.HEROKU_USERNAME }}
+        usedocker: true  
+
+    - name: Sending Notifications
+      uses: act10ns/slack@v1
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      with: 
+        status: ${{ job.status }}
+        channel: '#slack-notifications'
+        message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+
+      
+      

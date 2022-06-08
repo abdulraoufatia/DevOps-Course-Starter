@@ -204,30 +204,29 @@ docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo
 ```
 
 ## Advanced Features of Docker - Docker Compose
-Launching containers with long docker run commands can become tedious, and difficult to share with other developers. The basic principle of 'docker compose' is utilised to launch long docker run commands. So, rather than running the afrementioned commands, one could run a simple: 
+
+Launching containers with long docker run commands can become tedious, and difficult to share with other developers. The basic principle of 'docker compose' is utilised to launch long docker run commands. So, rather than running the afrementioned commands, one could run a simple:
 
 ```bash
 docker-compose up --build 
 ```
 
-
-
 Note: docker-compose.yml is configured in YAML. To further develop your understanding, please see [this link](https://docs.docker.com/compose/gettingstarted/) --> Docker Compose Getting Started | See step 3
 
-
 ### Running Tests
+
 This approach helps to identify bugs as early as possible. These inherent features of a DevOps testing environment contribute significantly towards improving software quality. A third Docker stage is included describing the ability to encapsulate a complete test environment( unit, integration and end-to-end tests).
 
-If you have been following along, don't forget to stop the container, to stop a container you may run the following command: 
+If you have been following along, don't forget to stop the container, to stop a container you may run the following command:
 
 ```bash
 docker-compose stop
 ```
 
-To buld the test image run the following command: 
+To buld the test image run the following command:
 
 ```bash
-$ docker build --target test --tag test-image .
+docker build --target test --tag test-image .
 ```
 
 We can confirm the the success of the event by having an output similar to the following :
@@ -245,4 +244,47 @@ devops-course-starter-web-1  |
 devops-course-starter-web-1  | ============================== 4 passed in 0.21s ===============================
 devops-course-starter-web-1 exited with code 0
 ```
-Knowledge in Testing is required to undestand what is happening above. 
+
+Knowledge in Testing is required to undestand what is happening above.
+
+#### Running individual containers
+
+If you wish to run a container seperately, use each command respecitively either:
+
+```bash
+docker-compose up todo-development
+```
+
+```bash
+docker-compose up todo-test
+```
+
+```bash
+docker-compose up todo-production
+```
+
+## Application of Continious Integration and Continious Delivery
+
+Continuous Integration (CI) is a DevOps software development practice where developers regularly merge their code changes into a central repository, after which automated builds and tests are run. This repoistory CI pipeline is set in the following manner:
+
+### Continuous Integration
+
+1. It runs Snyk to check for vulnerabilities with the python application
+2. It builds the test image
+3. It runs the test image, printing the results of the test, if all is well it proceed with the next step;
+4. Notification is sent
+
+### Continious Delivery
+
+1. Second job will run upon the success of first job (CI)
+2. Docker buildx is set up
+3. Docker is authenticated
+4. Production image is pushed to docker (using argument  `target: production`)
+5. Image deployed on Heroku
+6. Notification is sent
+
+### Important Heroku Dockerfile commands and runtime
+
+- If argument `target : <name_of_env>` is set to a specific target, it will upload the target name, the stage by default will upload the last stage. This is because, in our application, it's production, if you were to change this to `test`, the `test` target stage will be pushed to Dockerhub (action name = Pushing to DockerHub )
+- The web process must listen for HTTP traffic on $PORT, which is set by Heroku
+- EXPOSE in Dockerfile is not respected, but can be used for local testing. Only HTTP requests are supported.

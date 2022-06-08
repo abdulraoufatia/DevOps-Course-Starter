@@ -28,4 +28,6 @@ CMD ["poetry", "run", "pytest"]
 
 FROM base as production
 
+ENV PORT=5000
+
 CMD poetry run gunicorn -b 0.0.0.0:$PORT "todo_app.app:create_app()"

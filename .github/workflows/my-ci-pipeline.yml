@@ -63,7 +63,7 @@ jobs:
         cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/todoapp:buildcache,mode=max
 
     - name: Setting up Continious Deployment
-      run: curl -dH -X POST https://$ARA-TODOAPP:${{ secrets.ARA_TODOAPP }}@ara-todoapp.scm.azurewebsites.net/api/registry/webhook
+      run: curl -dH -X POST https://\$ARA-TODOAPP:${{ secrets.ARA_TODOAPP }}@ara-todoapp.scm.azurewebsites.net/api/registry/webhook
 
     - name: Sending Notifications
       uses: act10ns/slack@v1

@@ -58,9 +58,9 @@ def in_progress_trello_card(id):
 
     return requests.put(card_in_progress_url, params=query_params_in_progress)
 
+
+
     # Function that delete's cards
-
-
 def delete_card(id):
     deleting_card = f"http://api.trello.com/1/cards/{id}"
 
@@ -71,3 +71,24 @@ def delete_card(id):
     }
 
     return requests.delete(deleting_card, params=query_params_delete_card)
+    # Function that creates a trello board
+def create_trello_board(name):
+    creating_trello_board=f"http://api.trello.com/1/boards"
+
+    create_board = {
+        "key": os.environ.get("API_KEY"),
+        "token": os.environ.get("API_TOKEN"),
+        "name":name
+    }
+
+    return requests.post(creating_trello_board, params=create_board)
+    # Function that deletes a trello board 
+def delete_trello_board():
+    deleting_trello_board = f"http://api.trello.com/1/boards/{id}"
+
+    delete_board = {
+        "key": os.environ.get("API_KEY"),
+        "token": os.environ.get("API_TOKEN")
+    }
+
+    return requests.delete(deleting_trello_board, params=delete_board)

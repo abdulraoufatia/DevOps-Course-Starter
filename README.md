@@ -18,19 +18,19 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 
 ## Dependencies
 
-The project uses a virtual environment to isolate package dependencies. To create the virtual environment and install required packages, run the following from your preferred shell:
+The project uses a virtual environment to isolate package dependencies. To create the virtual environment and install the required packages, run the following from your preferred shell:
 
 ```bash
 poetry install
 ```
 
-You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
+You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on the first setup:
 
 ```bash
 cp .env.template .env  # (first time only)
 ```
 
-The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
+The `.env` file is used by Flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
 ## Before Running the app
 
@@ -318,7 +318,7 @@ Once installed, open a new terminal window and enter `az login`, which will laun
 
 For Windows, the Azure CLI is installed via the Microsoft Installer (MSI), which gives you access to the CLI through the Windows Command Prompt (CMD) or PowerShell. When installing for Windows Subsystem for Linux (WSL), packages are available for your Linux distribution. See the main install page for the list of supported package managers or how to install manually under WSL.
 
-The current version of the Azure CLI is 2.38.0. For information about the latest release, see the release notes. To find your installed version and see if you need to update, run az version.
+The current version of the Azure CLI is 2.38.0. For information about the latest release, see the release notes. To find your installed version and see if you need to update, run `az version`.
 
 Microsoft Installer: [Link](https://aka.ms/installazurecliwindows) (aka.ms/installazurecliwindows)
 
@@ -336,13 +336,82 @@ For troubleshooting, please see [here](https://docs.microsoft.com/en-us/cli/azur
 
 ### Hosting Frontend on Azure
 
+Side note: Azure App Service" with Containers vs "Azure Container Instances"
+
+Azure App Services are set up for hosting long-running web applications, with a nice setup for front-facing web applications, with SSL and domain names built in, and allows either raw code or a Container Image to be uploaded.
+
+- One Basic Tier App Service is part of the "Always Free" offering from Azure.
+
+- Azure Container Instances are for lightweight short-run "compute" containers and quickly releasing local Docker compose-based apps. They are faster to deploy and billed per-second, with better orchestration for multiple containers. However, they are more expensive than App Services to run for extended periods and aren't as suited to production web applications.
+
+- Azure Container Apps are a relatively new (General Availability Q2 2022) way of running containers on Azure, with built-in autoscaling support and a focus on microservices
 
 #### Uploading Container Image on DockerHub registry
 
+As Azure Container Registry (ACR) has a cost attached to it, so, therefore, this project is set up with container images pushed to the DockerHub registry. This CI/CD pipeline contains an action that it uploads to Docker Hub Registry.
+
 #### Creating a Web App
+
+<Webapp_name> needs to be *globally* unique, and will form part of the URL of the deployed app: <<https://<webapp_name>.azurewebsites.net>>.
+
+Below are two different methods of how one can create the web_app:
+
+- Portal
+  - Within the portal, search for `App Services`
+  - Click on `+ Create button`
+  - Choose the right `Resource Group`
+  - Name your App Service -  *Globally Unique*
+  - Choose the desired `OS`
+  - Chose the best `region` for low latency
+  - Click Next: Docker
+  - For `Image Source`, choose the appropriate   source, for the todo app, we will choose `Docker Hub`
+  - Leave the rest as default, others are optional and may have an additional costings involved and `create`
+
+- CLI
+
+  - Create the Service App Plan:
+
+`az appservice plan create --resource-group <resource_group_name> -n <appservice_plan_name> --sku B1 --is-linux`
+
+- Create the Web App:
+
+  `az webapp create --resource-group <resource_group_name> --
+plan <appservice_plan_name> --name <webapp_name> --deployment-container-image-name <dockerhub_username>/todo-app:latest`
 
 #### Setting up the Environment Variables
 
+- Portal
+
+  - Under the `Settings Blade`, Click on `Configuration`
+  - Add all environment variables accordingly to your .env file as `New application Setting`
+  - Remember to press save!
+
+- CLI
+
+  - You can enter environment variables individually via:
+
+     `az webapp config appsettings set -g <resource_group_name> -n
+     <webapp_name> --settings FLASK_APP=todo_app/app. <env1=token> <env2=key>`
+
+     Don't forget to add all the environment variables your application needs.
+
 #### Confirming Status of Application
 
+Browse to `<http://<webapp_name>.azurewebsites.net/>` and confirm no functionality has been lost.
+
 ### Setting up Continuous Deployment
+
+When creating an app service, Azure sets up a webhook URL. Post requests to this endpoint cause your app to restart and pull the latest version of the container
+image from the configured registry.
+
+- Find the webhook URL: From the app service in Azure Portal, navigate to Deployment Center
+
+- Test webhook provided with:
+
+`curl -dH -X POST your_webhook_url`
+
+- To prevent the `$username` part of the webhook being interpreted by your shell as a variable name place
+backslash before the dollar sign. For example:
+`curl -dH -X POST https://\$my-todo-app:abc123@...etc`
+
+- The command was then added to the CD pipeline

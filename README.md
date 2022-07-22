@@ -288,6 +288,24 @@ Continuous Integration (CI) is a DevOps software development practice where deve
 - The web process must listen for HTTP traffic on $PORT, which is set by Heroku
 - EXPOSE in Dockerfile is not respected, but can be used for local testing. Only HTTP requests are supported.
 
+Heroku CI/CD action:
+
+```
+    - name: Deploying to Heroku
+      
+      uses: akhileshns/heroku-deploy@v3.12.12 
+      
+      with:
+        
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        
+        heroku_app_name: "todo-app-apprenticeship"
+        
+        heroku_email: ${{ secrets.HEROKU_USERNAME }}
+        
+        usedocker: true 
+```
+
 ## Tooling and Cloud Infrastructure
 
 ### Getting Ready

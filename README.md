@@ -34,7 +34,7 @@ The `.env` file is used by flask to set environment variables when running `flas
 
 ## Before Running the app
 
-The set up of this to_do app has been designed for Trello. Set up the .env file and place the information accordingly to your Trello account:
+The set-up of this to_do app has been designed for Trello. Set up the .env file and place the information accordingly with your Trello account:
 
 ```bash
 SECRET_KEY=secret-key # leave this as it is
@@ -49,7 +49,7 @@ COMPLETED_LIST =  'qrs'
 
 ## Running the App
 
-Once the all dependencies have been installed and relevant information has been inputted, start the Flask app in development mode within the poetry environment by running:
+Once all dependencies have been installed and relevant information has been inputted, start the Flask app in development mode within the poetry environment by running:
 
 ```bash
 poetry run flask run
@@ -71,11 +71,10 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 
 ## Running tests with pytest
 
-Being a DevOps engineer invokes many responabilities, one responsability of a DevOps Engineer is to be involved in identifying required qualities and estimate their impact on the development process. This is done through the practice of testing.
+Being a DevOps engineer invokes many responsibilities, one responsibility of a DevOps Engineer is to be involved in identifying required qualities and estimate their impact on the development process. This is done through the practice of testing.
 
-In the world of software engineering, testing is an impertive practice constituting the security of your code.
-
-Through out this project, testing our software was achieved through the pytest framework.
+In the world of software engineering, testing is an imperative practice constituting the security of your code.
+Throughout this project, testing our software was achieved through the pytest framework.
 
 ### Getting started - Installing pytest
 
@@ -130,11 +129,11 @@ FAILED test_sample.py::test_answer - assert 4 == 5
 
 ```
 
-To read more about pytest, please visit pytest offical website here : [pytest documentation] (<https://docs.pytest.org/en/6.2.x/contents.html>)
+To read more about pytest, please visit the pytest official website here: [pytest documentation] (<https://docs.pytest.org/en/6.2.x/contents.html>)
 
 ## DevOps Applications - Containerisation
 
-This application utilises containerisation concept. Containerisation entails placing a software component and its environement, dependencies, and configuration, into an insolated unit called a container. This makes it poosible to deploy an application consistently on any computing environment, whether on-premise or cloud-based.
+This application utilises containerisation concept. Containerisation entails placing a software component and its environment, dependencies, and configuration, into an insolated unit called a container. This makes it possible to deploy an application consistently in any computing environment, whether on-premise or cloud-based.
 
 To get started, you need to install a containerisation tool. A containerisation tool used for this project was Docker. However, you may find alternatives depending on your Operating System.
 
@@ -142,9 +141,9 @@ To get started, you need to install a containerisation tool. A containerisation 
 
 ### Build and run the Docker Image
 
-This project is buit using mutlti-stage builds. Mutil-stage builds are useful to optimise Dockerfiles while keeping them easy to read and maintain.  
+This project is built using multi-stage builds. Multi-stage builds are useful to optimise Dockerfiles while keeping them easy to read and maintain.  
 
-To build the development enviornment, run the following command:
+To build the development environment, run the following command:
 
 ```bash
 docker build --target development --tag todo_app:development .
@@ -182,7 +181,7 @@ The next step is to test the local development setup using the following command
 docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
 ```
 
-You should see see something like this:
+You should see something like this:
 
 ```bash
 docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:development
@@ -205,7 +204,7 @@ docker run --env-file ./.env -p 4000:5000 --mount type=bind,source="$(pwd)"/todo
 
 ## Advanced Features of Docker - Docker Compose
 
-Launching containers with long docker run commands can become tedious, and difficult to share with other developers. The basic principle of 'docker compose' is utilised to launch long docker run commands. So, rather than running the afrementioned commands, one could run a simple:
+Launching containers with long docker run commands can become tedious, and difficult to share with other developers. The basic principle of 'docker compose' is utilised to launch long docker run commands. So, rather than running the aforementioned commands, one could run a simple:
 
 ```bash
 docker-compose up --build 
@@ -215,7 +214,7 @@ Note: docker-compose.yml is configured in YAML. To further develop your understa
 
 ### Running Tests
 
-This approach helps to identify bugs as early as possible. These inherent features of a DevOps testing environment contribute significantly towards improving software quality. A third Docker stage is included describing the ability to encapsulate a complete test environment( unit, integration and end-to-end tests).
+This approach helps to identify bugs as early as possible. These inherent features of a DevOps testing environment contribute significantly toward improving software quality. A third Docker stage is included describing the ability to encapsulate a complete test environment( unit, integration and end-to-end tests).
 
 If you have been following along, don't forget to stop the container, to stop a container you may run the following command:
 
@@ -223,13 +222,13 @@ If you have been following along, don't forget to stop the container, to stop a 
 docker-compose stop
 ```
 
-To buld the test image run the following command:
+To build the test image run the following command:
 
 ```bash
 docker build --target test --tag test-image .
 ```
 
-We can confirm the the success of the event by having an output similar to the following :
+We can confirm the success of the event by having an output similar to the following :
 
 ```bash
 devops-course-starter-web-1  | Skipping virtualenv creation, as specified in config file.
@@ -245,11 +244,11 @@ devops-course-starter-web-1  | ============================== 4 passed in 0.21s 
 devops-course-starter-web-1 exited with code 0
 ```
 
-Knowledge in Testing is required to undestand what is happening above.
+Knowledge of Automating  Testing is required to understand what is happening above.
 
 #### Running individual containers
 
-If you wish to run a container seperately, use each command respecitively either:
+If you wish to run a container separately, use each command respectively either:
 
 ```bash
 docker-compose up todo-development
@@ -263,24 +262,24 @@ docker-compose up todo-test
 docker-compose up todo-production
 ```
 
-## Application of Continious Integration and Continious Delivery
+## Application of Continuous Integration and Continuous Delivery
 
-Continuous Integration (CI) is a DevOps software development practice where developers regularly merge their code changes into a central repository, after which automated builds and tests are run. This repoistory CI pipeline is set in the following manner:
+Continuous Integration (CI) is a DevOps software development practice where developers regularly merge their code changes into a central repository, after which automated builds and tests are run. This repository CI pipeline is set in the following manner:
 
 ### Continuous Integration
 
 1. It runs Snyk to check for vulnerabilities with the python application
 2. It builds the test image
-3. It runs the test image, printing the results of the test, if all is well it proceed with the next step;
+3. It runs the test image, printing the results of the test, if all is well it proceeds with the next step;
 4. Notification is sent
 
-### Continious Delivery
+### Continuous Delivery
 
-1. Second job will run upon the success of first job (CI)
+1. The second job will run upon the success of the first job (CI)
 2. Docker buildx is set up
 3. Docker is authenticated
 4. Production image is pushed to docker (using argument  `target: production`)
-5. Image deployed on Heroku
+5. Image deployed on Azure App Service
 6. Notification is sent
 
 ### Important Heroku Dockerfile commands and runtime
@@ -288,3 +287,62 @@ Continuous Integration (CI) is a DevOps software development practice where deve
 - If argument `target : <name_of_env>` is set to a specific target, it will upload the target name, the stage by default will upload the last stage. This is because, in our application, it's production, if you were to change this to `test`, the `test` target stage will be pushed to Dockerhub (action name = Pushing to DockerHub )
 - The web process must listen for HTTP traffic on $PORT, which is set by Heroku
 - EXPOSE in Dockerfile is not respected, but can be used for local testing. Only HTTP requests are supported.
+
+## Tooling and Cloud Infrastructure
+
+### Getting Ready
+
+One would need to have an Azure account set up for this part. If you do not have an Azure Account, create one here at [Microsoft Azure - GB](https://azure.microsoft.com/en-gb/free/) (azure.microsoft.com).
+
+#### Setting up an Azure Account
+
+When prompted select the "Start with an Azure free trial". This gives 12 months of access to some resources, and $150 credit for 30 days, along with "always free" tiers for most common resources. One could use the  Free Tier for this exercise, ensure you select the "FREE Tier" or "SKU F1" when creating resources, as the default is usually the cheapest paid option. The Free Tier and Free Subscription have some downsides: the size, scalability and some functionality of resources are limited, and you can
+only have one or two of each resource type taking advantage of the Free Subscription.
+
+If you see an error like "The subscription you have selected already has an app with free tier enabled" then you should either delete the existing resource in the Portal or opt for the cheap-but-paid Basic Tier for your resource.
+
+#### Creating and Locating a Resource Group
+
+A resource group is a logical container into which Azure resources, such as web apps, databases, and storage accounts, are deployed and managed. More Azure Terminology [here](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview#terminology).
+
+- Within the portal, search for "Resource group"
+- Click on  "+ Create". It will open a form to create a resource group. Select your subscription.
+
+#### Installing the CLI
+
+The Azure Command-Line Interface (CLI) allows the execution of commands through a terminal using interactive command-line prompts or a script. Furthermore, the CLI is available to install in Windows, macOS and Linux environments. It can also be run in a Docker container and Azure Cloud Shell.
+
+Once installed, open a new terminal window and enter `az login`, which will launch a browser window to allow you to log in.
+
+### Install on Windows
+
+For Windows, the Azure CLI is installed via the Microsoft Installer (MSI), which gives you access to the CLI through the Windows Command Prompt (CMD) or PowerShell. When installing for Windows Subsystem for Linux (WSL), packages are available for your Linux distribution. See the main install page for the list of supported package managers or how to install manually under WSL.
+
+The current version of the Azure CLI is 2.38.0. For information about the latest release, see the release notes. To find your installed version and see if you need to update, run az version.
+
+Microsoft Installer: [Link](https://aka.ms/installazurecliwindows) (aka.ms/installazurecliwindows)
+
+### Install on macOS
+
+With Homebrew, it is the easiest way to manage your CLI install. It provides convenient ways to install, update, and uninstall. If you don't have homebrew available on your system, [install homebrew](https://docs.brew.sh/Installation.html) before continuing.
+
+You can install the Azure CLI on macOS by updating your brew repository information, and then running the `install` command:
+
+``` brew update && brew install azure-cli ```
+
+*The Azure CLI has a dependency on the* Homebrew python@3.10 package and will *install it.*
+
+For troubleshooting, please see [here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-macos#troubleshooting) (docs.microsoft.com/en-us/cli/azure/install-azure-cli-macos#troubleshooting).
+
+### Hosting Frontend on Azure
+
+
+#### Uploading Container Image on DockerHub registry
+
+#### Creating a Web App
+
+#### Setting up the Environment Variables
+
+#### Confirming Status of Application
+
+### Setting up Continuous Deployment

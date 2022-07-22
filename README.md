@@ -290,15 +290,21 @@ Continuous Integration (CI) is a DevOps software development practice where deve
 
 Heroku CI/CD action:
 
-`
+```
     - name: Deploying to Heroku
+      
       uses: akhileshns/heroku-deploy@v3.12.12 
+      
       with:
+        
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        
         heroku_app_name: "todo-app-apprenticeship"
+        
         heroku_email: ${{ secrets.HEROKU_USERNAME }}
+        
         usedocker: true 
-`
+```
 
 ## Tooling and Cloud Infrastructure
 

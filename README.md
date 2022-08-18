@@ -45,6 +45,7 @@ BOARD = 'ghi'
 NOTSTARTED_LIST = 'klm'
 INPROGRESS_LIST = 'nop'
 COMPLETED_LIST =  'qrs'
+PRIMARY_CONNECTION_STRING = 'zxc'
 ```
 
 ## Running the App

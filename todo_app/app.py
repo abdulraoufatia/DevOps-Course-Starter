@@ -1,6 +1,7 @@
 from os import name
 from flask import Flask, render_template, request, redirect, url_for
 from todo_app.data.trello_items import (
+    get_all_cards,
     get_trello_lists,
     create_trello_card,
     complete_trello_card,
@@ -19,16 +20,7 @@ def create_app():
     # Part 1, Step 1 - Module_3: Making a ViewModel
     @app.route("/", methods=["GET"])
     def index():
-        # Part 5 - Module_2: Creating a class for 'to-do' items
-        trello_lists = get_trello_lists()
-        todo_items = []
-        for list in trello_lists:
-            for card in list["cards"]:
-                id = card["id"]
-                title = card["name"]
-                status = list["name"]
-                item = ToDoItem(id, title, status)
-                todo_items.append(item)
+        todo_items = get_all_cards()
         # Part 1, Step 1 - Module_3: Making a ViewModel
         view_model = ViewModel(todo_items)
         return render_template("index.html", view_model=view_model)

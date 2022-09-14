@@ -7,20 +7,18 @@ services:
         env_file:
             - ./.env
         ports:
-            - "4000:5000"
+            - "5001:5000"
         volumes:
             - ./todo_app:/app/todo_app
         environment: 
-            PORT: 4000
             FLASK_DEBUG: 1  
+
      todo-test:
         build: 
             context: .
             target: test
         env_file:
             - ./.env
-        ports:
-            - "4000:5000"
         volumes:
             - ./todo_app:/app/todo_app
         environment: 

@@ -11,52 +11,52 @@ ca = certifi.where()
 connectionn_string = os.environ.get("PRIMARY_CONNECTION_STRING")
 client = MongoClient(connectionn_string, tlsCAFile=ca)
 db = client.todo_app
-todo_cards = db.todo_tasks 
+todo_items = db.todo_tasks 
     
 # Part-2a: Module_10.  Replacing Trello
 def get_all_cards():
-    find_cards = todo_cards.find()
-    todo_items = []
+    find_cards = todo_items.find()
+    items = []
     for card in find_cards:
         id = card["_id"]
         title = card["title"]
         status = card["status"]
         item = ToDoItem(id, title, status)
-        todo_items.append(item)
+        items.append(item)
 
-    return todo_items
+    return items
 
 
 # Part-2a: Module_10.  Replacing Trello
-def create_trello_card(name):
+def create_mongo_item(name):
     todo = {
     "title": name,
     "status": "Not Started"
     }
 
-    todo_cards.insert_one(todo).inserted_id
+    todo_items.insert_one(todo).inserted_id
 
 # Part-2a: Module_10.  Replacing Trello: Transitions cards to "Complete" status
-def complete_trello_card(id):
+def complete_mongo_item(id):
     todo = {
         "_id":ObjectId (id),
         }
     complete = { "$set":{ "status": "Completed" } }
-    todo_cards.update_one( todo, complete)
+    todo_items.update_one( todo, complete)
 
 # Part-2a: Module_10.  Replacing Trello: Transitions cards to "In-Progress" status
-def in_progress_trello_card(id):
+def in_progress_mongo_item(id):
     todo = {
         "_id":ObjectId (id),
         }
     inprogress = { "$set":{ "status": "In-Progress" } }
-    todo_cards.update_one( todo, inprogress)
+    todo_items.update_one( todo, inprogress)
 
 
-def delete_card(id):
+def delete_item(id):
     todo = {
         "_id":ObjectId (id),
          }
 
-    todo_cards.delete_one(todo)
+    todo_items.delete_one(todo)
 

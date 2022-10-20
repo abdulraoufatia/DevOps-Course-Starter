@@ -20,7 +20,7 @@ class ViewModel:
     def doing_items(self):
         doing_items = []
         for item in self._items:
-            if item.status == "In-Progress":
+            if item.status == "In Progress":
                 doing_items.append(item)
         return doing_items
 

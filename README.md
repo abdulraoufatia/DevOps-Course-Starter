@@ -70,6 +70,10 @@ You should see output similar to the following:
 
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
+## Architecture
+
+![c4-diagram](c4-diagram.png)
+
 ## Running tests with pytest
 
 Being a DevOps engineer invokes many responsibilities, one responsibility of a DevOps Engineer is to be involved in identifying required qualities and estimate their impact on the development process. This is done through the practice of testing.

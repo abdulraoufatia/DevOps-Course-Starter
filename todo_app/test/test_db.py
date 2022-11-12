@@ -1,5 +1,6 @@
 from dotenv import load_dotenv, find_dotenv
 from todo_app import app
+from todo_app.data.viewmodel import ViewModel
 import mongomock
 import pytest
 
@@ -15,8 +16,10 @@ def client():
 
 
 def test_index_page(client):
-    # Arrange
-    # MISSING!
+    # Arrange - MISSING!
+    create_mongo_item = 
+    create_mongo_item("Test card")
+   
     
     # Act
     response = client.get("/")

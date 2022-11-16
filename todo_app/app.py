@@ -43,8 +43,8 @@ def create_app():
 
     @app.route("/delete_card", methods=["POST"])
     def deleting_card_function():
-        delete_item = request.form["delete_card"]
-        delete_item(delete_item)
+        delete_card = request.form["delete_card"]
+        mongo_client.delete_item(delete_card)
         return redirect(url_for("index"))
 
     return app

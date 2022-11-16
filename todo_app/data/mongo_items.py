@@ -52,7 +52,7 @@ class MongoClient:
         todo = {
             "_id":ObjectId (id),
             }
-        inprogress = { "$set":{ "status": "In-Progress" } }
+        inprogress = { "$set":{ "status": "In Progress" } }
         self.todo_items.update_one( todo, inprogress)
 
 

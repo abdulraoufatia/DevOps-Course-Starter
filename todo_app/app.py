@@ -65,9 +65,7 @@ def create_app():
     
     @login_manager.user_loader
     def load_user(user_id):
-        print(user_id)
-        pass # We will return to this later
-
+        return User(user_id)
     login_manager.init_app(app)
 
     @app.route('/login/callback')
@@ -92,10 +90,7 @@ def create_app():
         response = requests.get(reqUrl, headers=headersList)
 
         response_json = response.json()
-
-        print(response_json)
-
-        user = User(response_json['id'])
+        user = User(response_json['login'])
 
         login_user(user)
         return redirect('/')

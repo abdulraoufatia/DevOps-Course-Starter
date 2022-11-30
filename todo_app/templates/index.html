@@ -141,9 +141,11 @@
         </div>
     </div>
     <form action="/newitem " method="post">
+        {% if view_model.is_writer %}
         <p>Add a todo item</p>
         <p><input type=text name="todo" /></p>
         <p><input type=submit value="Add item " /></p>
+        {% endif %}
     </form>
 </div>
 <script>

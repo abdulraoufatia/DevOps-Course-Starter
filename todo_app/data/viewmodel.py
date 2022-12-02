@@ -1,11 +1,16 @@
 # Module 3, Part 1: Step 1
 class ViewModel:
-    def __init__(self, items):
+    def __init__(self, items, user):
         self._items = items
+        self._user = user
 
     @property
     def items(self):
         return self._items
+
+    @property
+    def is_writer(self):
+        return self._user.writer_role()
 
     # Module 3, Part 1: Step 2
     @property

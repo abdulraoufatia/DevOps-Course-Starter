@@ -6,4 +6,4 @@ class User(UserMixin):
         self.id = id
 
     def writer_role(self): 
-        return self.id == os.getenv("id")
+        return self.id == os.getenv("ID")

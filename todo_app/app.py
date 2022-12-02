@@ -105,7 +105,7 @@ def create_app():
         response = requests.get(reqUrl, headers=headersList)
 
         response_json = response.json()
-        user = User(response_json['login'])
+        user = User(response_json ['login'])
 
         login_user(user)
         return redirect('/')

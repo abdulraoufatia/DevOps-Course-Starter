@@ -1,7 +1,6 @@
 from todo_app.data.todoitem import ToDoItem
 from todo_app.data.viewmodel import ViewModel
 
-
 def test_todo_items():
     items = [
         ToDoItem(1, "A New Todo", "Not Started"),

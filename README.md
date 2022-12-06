@@ -45,6 +45,7 @@ BOARD = 'ghi'
 NOTSTARTED_LIST = 'klm'
 INPROGRESS_LIST = 'nop'
 COMPLETED_LIST =  'qrs'
+PRIMARY_CONNECTION_STRING = 'zxc'
 ```
 
 ## Running the App
@@ -428,8 +429,15 @@ image from the configured registry.
 
 `curl -dH -X POST your_webhook_url`
 
-- To prevent the `$username` part of the webhook being interpreted by your shell as a variable name place
+- To prevent the `$username` part of the webhook from being interpreted by your shell as a variable name place
 backslash before the dollar sign. For example:
 `curl -dH -X POST https://\$my-todo-app:abc123@...etc`
 
 - The command was then added to the CD pipeline
+
+### Creating a MongdoDB Database
+#### Step 1 - Connecting to CosmosDB
+
+Connect to the DB by copying the "PRIMARY CONNECTION STRING" for your cluster, available under Settings --> Connection String from your CosmosDB account page in the Azure Portal, or via the CLI:
+
+`az cosmosdb keys list -n <cosmos_account_name> -g <resource_group_name> --type connection-strings`

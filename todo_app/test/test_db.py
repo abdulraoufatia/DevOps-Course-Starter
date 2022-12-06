@@ -1,4 +1,5 @@
 from dotenv import load_dotenv, find_dotenv
+from todo_app.data.mongo_items import MongoClient
 from todo_app import app
 import mongomock
 import pytest
@@ -15,9 +16,9 @@ def client():
 
 
 def test_index_page(client):
-    # Arrange - MISSING!
-    create_mongo_item = 
-    create_mongo_item("Test card")
+    # Arrange
+    db_client = MongoClient()
+    db_client.create_mongo_item("Test card")
    
     
     # Act

@@ -16,10 +16,9 @@ def client():
 
 
 def test_index_page(client):
-    # Arrange - MISSING!
+    # Arrange
     db_client = MongoClient()
     db_client.create_mongo_item("Test card")
-    # db_client("Test card")
    
     
     # Act

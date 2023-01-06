@@ -1,5 +1,6 @@
 from todo_app.data.todoitem import ToDoItem
 from todo_app.data.viewmodel import ViewModel
+from todo_app.data.user import User
 
 def test_todo_items():
     items = [
@@ -7,7 +8,7 @@ def test_todo_items():
         ToDoItem(2, "A Working Todo", "In Progress"),
         ToDoItem(3, "A Completed Todo", "Completed"),
     ]
-    viewmodel = ViewModel(items)
+    viewmodel = ViewModel(items, User("TestUser"))
     todo_items = viewmodel.todo_items
     assert len(todo_items) == 1
     assert todo_items[0].status == "Not Started"
@@ -19,7 +20,7 @@ def test_doing_items():
         ToDoItem(2, "A Working Todo", "In Progress"),
         ToDoItem(3, "A Completed Todo", "Completed"),
     ]
-    viewmodel = ViewModel(items)
+    viewmodel = ViewModel(items, User("TestUser"))
     doing_items = viewmodel.doing_items
     assert len(doing_items) == 1
     assert doing_items[0].status == "In Progress"
@@ -31,7 +32,7 @@ def test_done_items():
         ToDoItem(2, "A Working Todo", "In Progress"),
         ToDoItem(3, "A Completed Todo", "Completed"),
     ]
-    viewmodel = ViewModel(items)
+    viewmodel = ViewModel(items, User("TestUser"))
     done_items = viewmodel.done_items
     assert len(done_items) == 1
     assert done_items[0].status == "Completed"

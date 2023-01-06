@@ -46,6 +46,8 @@ NOTSTARTED_LIST = 'klm'
 INPROGRESS_LIST = 'nop'
 COMPLETED_LIST =  'qrs'
 PRIMARY_CONNECTION_STRING = 'zxc'
+client_id='CLIENTID'
+client_secret_env='CLIENTSECRET'
 ```
 
 ## Running the App
@@ -441,3 +443,17 @@ backslash before the dollar sign. For example:
 Connect to the DB by copying the "PRIMARY CONNECTION STRING" for your cluster, available under Settings --> Connection String from your CosmosDB account page in the Azure Portal, or via the CLI:
 
 `az cosmosdb keys list -n <cosmos_account_name> -g <resource_group_name> --type connection-strings`
+
+### Authentication 
+Authentication enables organizations to keep their networks secure by permitting only authenticated users or processes to gain access to their protected resources. This may include computer systems, networks, databases, websites and other network-based applications or services.
+
+The login flow looks like this:
+- A user tries to visit your application
+- They are redirected to GitHub
+- After logging in, they are redirected to a "callback" URL. This is the route in our application. The redirect will include an authorisation "code" (assuming everything was successful) - next step is to hide the authorisation code
+
+### Authorisation
+
+### CI/CD Pipeline and the lives ite
+
+Here it is important to update changes to your continuous deployment stage. No change was needed to be done for the pipeline itself, however, in Azure App Service Plan, under the configuration blade, ensure to add the newly developed client_id and client secret as variables. Please ensure to remove any quotation marks either `'` or `"` before and after the value. For it to also work, it is important to have an `id` key assigned to a value as an environment variable, this will provide the relevant permissions to the user. 

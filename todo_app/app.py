@@ -10,7 +10,7 @@ from todo_app.data.user import User
 from werkzeug.exceptions import Forbidden
 
 client_id='CLIENTID'
-client_secret='CLIENTSECRET'
+client_secret_env='CLIENTSECRET'
 
 
 def create_app():
@@ -89,7 +89,7 @@ def create_app():
         access_token_url = 'https://github.com/login/oauth/access_token'
         payload = {
             'client_id': os.getenv(client_id),
-            'client_secret': os.getenv(client_secret),
+            'client_secret_env': os.getenv(client_secret_env),
             'code': code,
         } 
         r = requests.post(access_token_url, json=payload, headers={'Accept': 'application/json'})
@@ -105,7 +105,7 @@ def create_app():
         response = requests.get(reqUrl, headers=headersList)
 
         response_json = response.json()
-        user = User(response_json ['login'])
+        user = User(response_json ['id'])
 
         login_user(user)
         return redirect('/')

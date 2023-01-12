@@ -13,6 +13,11 @@ data "azurerm_resource_group" "main" {
   name = "KPMG21_AbdulraoufAtia_ProjectExercise"
 }
 
+data "azurerm_cosmosdb_account" "main" {
+  name                = "md10-cosmos-db"
+  resource_group_name = data.azurerm_resource_group.main.name
+}
+
 resource "azurerm_service_plan" "main" {
   name                = "terraformed-asp"
   location            = data.azurerm_resource_group.main.location
@@ -37,9 +42,9 @@ resource "azurerm_linux_web_app" "main" {
 }
 
 resource "azurerm_cosmosdb_account" "db" {
-  name                = "ara-todo-appm12"
+  name                = data.azurerm_cosmosdb_account.main.name
   location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main
+  resource_group_name = data.azurerm_resource_group.main.name
   offer_type          = "Standard"
   kind                = "MongoDB"
 
@@ -77,17 +82,18 @@ resource "azurerm_cosmosdb_account" "db" {
   }
 
   geo_location {
-    location          = "southuk"
+    location          = "uksouth"
     failover_priority = 0
   }
 }
 
-resource "azurerm_cosmosdb_mongo_database" "example" {
-  name                = "md12-cosmos-db"
-  resource_group_name = data.azurerm_cosmosdb_account.db.resource_group_name
-  account_name        = data.azurerm_cosmosdb_account.db.name
+resource "azurerm_cosmosdb_mongo_database" "db" {
+  name                = "md10-cosmos-db"
+  resource_group_name = data.azurerm_resource_group.main.name
+  account_name        = data.azurerm_cosmosdb_account.main.name
   throughput          = 400
 }
+
 
 output "cosmosdb_connectionstrings" {
   value     = "AccountEndpoint=${azurerm_cosmosdb_account.db.endpoint};AccountKey=${azurerm_cosmosdb_account.db.primary_key};"

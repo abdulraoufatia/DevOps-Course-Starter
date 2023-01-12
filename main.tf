@@ -61,8 +61,8 @@ resource "azurerm_cosmosdb_account" "db" {
     name = "EnableMongo"
   }
 
-  capabilities { 
-    name = "EnableServerless" 
+  capabilities {
+    name = "EnableServerless"
   }
 
   consistency_policy {
@@ -90,6 +90,6 @@ resource "azurerm_cosmosdb_mongo_database" "example" {
 }
 
 output "cosmosdb_connectionstrings" {
-   value = "AccountEndpoint=${azurerm_cosmosdb_account.db.endpoint};AccountKey=${azurerm_cosmosdb_account.db.primary_key};"
-   sensitive   = true
+  value     = "AccountEndpoint=${azurerm_cosmosdb_account.db.endpoint};AccountKey=${azurerm_cosmosdb_account.db.primary_key};"
+  sensitive = true
 }

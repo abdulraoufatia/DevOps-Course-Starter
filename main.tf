@@ -19,7 +19,7 @@ data "azurerm_cosmosdb_account" "main" {
 }
 
 resource "azurerm_service_plan" "main" {
-  name                = "terraformed-asp"
+  name                = "${var.prefix}-terraformed-asp"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   os_type             = "Linux"
@@ -32,17 +32,25 @@ resource "azurerm_linux_web_app" "main" {
   service_plan_id     = azurerm_service_plan.main.id
   site_config {
     application_stack {
-      docker_image     = "appsvcsample/python-helloworld"
+      docker_image     = "abdulraoufatia/todoapp"
       docker_image_tag = "latest"
     }
   }
-  app_settings = {
-    "DOCKER_REGISTRY_SERVER_URL" = "https://index.docker.io"
-  }
-}
 
+  app_settings = {
+    "DOCKER_REGISTRY_SERVER_URL"          = "https://index.docker.io",
+    "CLIENTID"                            = "${var.CLIENTID}",
+    "CLIENTSECRET"                        = "${var.CLIENTSECRET}",
+    "FLASK_APP"                           = "todo_app/app:create_app",
+    "ID"                                  = "${var.ID}",
+    "PRIMARY_CONNECTION_STRING"           = "${var.PRIMARY_CONNECTION_STRING}",
+    "SECRET_KEY"                          = "secret-key",
+    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+  }
+
+}
 resource "azurerm_cosmosdb_account" "db" {
-  name                = data.azurerm_cosmosdb_account.main.name
+  name                = "md10-cosmos-db"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   offer_type          = "Standard"
@@ -80,11 +88,6 @@ resource "azurerm_cosmosdb_account" "db" {
     location          = "uksouth"
     failover_priority = 1
   }
-
-  geo_location {
-    location          = "uksouth"
-    failover_priority = 0
-  }
 }
 
 resource "azurerm_cosmosdb_mongo_database" "db" {
@@ -98,4 +101,12 @@ resource "azurerm_cosmosdb_mongo_database" "db" {
 output "cosmosdb_connectionstrings" {
   value     = "AccountEndpoint=${azurerm_cosmosdb_account.db.endpoint};AccountKey=${azurerm_cosmosdb_account.db.primary_key};"
   sensitive = true
+}
+
+output "webapp_url" {
+value = "https://${azurerm_linux_web_app.main.default_hostname}"
+}
+
+output "name" {
+  
 }

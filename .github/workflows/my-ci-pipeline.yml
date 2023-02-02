@@ -45,7 +45,7 @@ jobs:
       run: terraform init
         
     - name: Apply Terraform changes
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve - var-file="dev.tfvars"
 
     - name: Call Azure CD webhook
       run: curl -X POST ${WEBHOOK_URL}
@@ -82,8 +82,11 @@ jobs:
     - name: Setting up Continious Deployment
       run: curl -dH -X POST ${{ secrets.ARA_TODOAPP }}
 
+    - name: Applying Terraform Initalisation
+      run: terraform init
+
     - name: Apply Terraform changes
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve - var-file="prod.tfvars"
 
     - name: Call Azure CD webhook
       run: curl -X POST ${WEBHOOK_URL}

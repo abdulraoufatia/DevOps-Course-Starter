@@ -40,6 +40,9 @@ jobs:
         status: ${{ job.status }}
         channel: '#slack-notifications'
         message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+
+    - name: Applying Terraform Initalisation
+      run: terraform init
         
     - name: Apply Terraform changes
       run: terraform apply -auto-approve

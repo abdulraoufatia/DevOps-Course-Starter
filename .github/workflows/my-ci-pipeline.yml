@@ -20,14 +20,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v2
+
+
+    - name: Terraform validate
+      run: terraform validate
 
     - name: Running Snyk to check for vulnerabilities
       uses: snyk/actions/python-3.8@master
       env: 
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-    - name: Running terraform validate
-      run: terraform validate    
 
     - name: Building Test Image
       run: docker build --target test --tag todo_app:test .
@@ -43,8 +45,6 @@ jobs:
         status: ${{ job.status }}
         channel: '#slack-notifications'
         message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-
-    - name: Running terraform apply
 
     - name: Call Azure CD webhook
       run: curl -X POST ${WEBHOOK_URL}

@@ -26,6 +26,9 @@ jobs:
       env: 
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
+    - name: Running terraform validate
+      run: terraform validate    
+
     - name: Building Test Image
       run: docker build --target test --tag todo_app:test .
 
@@ -45,6 +48,7 @@ jobs:
       run: terraform init
         
     - name: Apply Terraform changes
+      uses: dflook/terraform-apply\v1.29.1
       run: terraform apply -auto-approve - var-file="dev.tfvars"
 
     - name: Call Azure CD webhook
@@ -86,6 +90,7 @@ jobs:
       run: terraform init
 
     - name: Apply Terraform changes
+      uses: dflook/terraform-apply\v1.29.1
       run: terraform apply -auto-approve - var-file="prod.tfvars"
 
     - name: Call Azure CD webhook

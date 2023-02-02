@@ -5,17 +5,20 @@ terraform {
       version = ">= 3.8"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "KPMG21_AbdulraoufAtia_ProjectExercise"
+    storage_account_name = "m12storageaccount"
+    container_name       = "m12containertf"
+    key                  = "terraform.tfstate"
+  }
 }
+
 provider "azurerm" {
   features {}
 }
+
 data "azurerm_resource_group" "main" {
   name = "KPMG21_AbdulraoufAtia_ProjectExercise"
-}
-
-data "azurerm_cosmosdb_account" "main" {
-  name                = "md10-cosmos-db"
-  resource_group_name = data.azurerm_resource_group.main.name
 }
 
 resource "azurerm_service_plan" "main" {
@@ -25,6 +28,7 @@ resource "azurerm_service_plan" "main" {
   os_type             = "Linux"
   sku_name            = "B1"
 }
+
 resource "azurerm_linux_web_app" "main" {
   name                = "ARA-TODO-APP"
   location            = data.azurerm_resource_group.main.location
@@ -50,13 +54,11 @@ resource "azurerm_linux_web_app" "main" {
 
 }
 resource "azurerm_cosmosdb_account" "db" {
-  name                = "md10-cosmos-db"
+  name                = "md12-cosmos-db"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   offer_type          = "Standard"
   kind                = "MongoDB"
-
-  enable_automatic_failover = true
 
   capabilities {
     name = "EnableAggregationPipeline"
@@ -86,15 +88,14 @@ resource "azurerm_cosmosdb_account" "db" {
 
   geo_location {
     location          = "uksouth"
-    failover_priority = 1
+    failover_priority = 0
   }
 }
 
 resource "azurerm_cosmosdb_mongo_database" "db" {
   name                = "md10-cosmos-db"
   resource_group_name = data.azurerm_resource_group.main.name
-  account_name        = data.azurerm_cosmosdb_account.main.name
-  throughput          = 400
+  account_name        = azurerm_cosmosdb_account.db.name
 }
 
 
@@ -103,10 +104,4 @@ output "cosmosdb_connectionstrings" {
   sensitive = true
 }
 
-output "webapp_url" {
-value = "https://${azurerm_linux_web_app.main.default_hostname}"
-}
 
-output "name" {
-  
-}

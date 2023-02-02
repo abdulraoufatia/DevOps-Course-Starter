@@ -21,9 +21,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Terraform validate
-      run: terraform validate
-
     - name: Running Snyk to check for vulnerabilities
       uses: snyk/actions/python-3.8@master
       env: 

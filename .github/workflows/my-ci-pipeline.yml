@@ -44,12 +44,7 @@ jobs:
         channel: '#slack-notifications'
         message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
 
-    - name: Applying Terraform Initalisation
-      run: terraform init
-        
-    - name: Apply Terraform changes
-      uses: dflook/terraform-apply\v1.29.1
-      run: terraform apply -auto-approve - var-file="dev.tfvars"
+    - name: Running terraform apply
 
     - name: Call Azure CD webhook
       run: curl -X POST ${WEBHOOK_URL}
@@ -62,7 +57,25 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push' 
     steps:
     - uses: actions/checkout@v2
-      
+    - uses: hashicorp/setup-terraform@v2
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -input=false
+
+ 
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false
+
     - name: Setting up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
@@ -88,10 +101,6 @@ jobs:
 
     - name: Applying Terraform Initalisation
       run: terraform init
-
-    - name: Apply Terraform changes
-      uses: dflook/terraform-apply\v1.29.1
-      run: terraform apply -auto-approve - var-file="prod.tfvars"
 
     - name: Call Azure CD webhook
       run: curl -X POST ${WEBHOOK_URL}

@@ -47,7 +47,7 @@ resource "azurerm_linux_web_app" "main" {
     "CLIENTSECRET"                        = "${var.CLIENTSECRET}",
     "FLASK_APP"                           = "todo_app/app:create_app",
     "ID"                                  = "${var.ID}",
-    "PRIMARY_CONNECTION_STRING"           = "${var.PRIMARY_CONNECTION_STRING}",
+    "PRIMARY_CONNECTION_STRING"           = azurerm_cosmosdb_account.db.connection_strings[0],
     "SECRET_KEY"                          = "secret-key",
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
   }

@@ -8,6 +8,7 @@ variable "CLIENTID" {
 
 variable "CLIENTSECRET" {
   description = "clientsecret"
+  sensitive = true
 }
 
 variable "ID" {

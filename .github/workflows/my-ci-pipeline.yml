@@ -7,6 +7,13 @@ on:
     branches:
     - main
 
+env:
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  TF_VAR_CLIENTID: ${{ secrets.CLIENT_ID }}
+  TF_VAR_CLIENTSECRET: ${{ secrets.CLIENT_SECRET }}
+
+
 jobs:
   build:
     name: Build and test
@@ -41,7 +48,22 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push' 
     steps:
     - uses: actions/checkout@v2
-      
+    - uses: hashicorp/setup-terraform@v2
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -input=false
+
+    - name: Call Azure CD webhook
+      run: curl -dH -X POST "$(terraform output -raw cd_webhook)"
+
     - name: Setting up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
